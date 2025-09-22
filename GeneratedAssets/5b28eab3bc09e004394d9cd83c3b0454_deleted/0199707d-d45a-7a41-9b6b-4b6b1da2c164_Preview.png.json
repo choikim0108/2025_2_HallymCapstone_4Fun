@@ -1,0 +1,11 @@
+{
+    "asset": "f8f904de35757184d9b47388779199aa",
+    "fileName": "0199707d-d45a-7a41-9b6b-4b6b1da2c164_Preview.png",
+    "prompt": "ground that under the whole city assets",
+    "negativePrompt": "",
+    "model": "575ecf67-4425-4939-97b9-5e138b8ee234",
+    "modelName": "Unity Texture2D",
+    "customSeed": 454988088,
+    "w3CTraceId": "4beafb5ce5ffadd5d9c6bda24aba41df",
+    "refinementMode": "Generation"
+}

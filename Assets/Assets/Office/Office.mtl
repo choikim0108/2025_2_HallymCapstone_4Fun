@@ -1,0 +1,1100 @@
+newmtl Part95Mtl
+Material Color
+Ka 0.940601 0.940601 0.940601
+Kd 0.940601 0.940601 0.940601
+Ks 0.627067 0.627067 0.627067 
+
+d 1
+
+Ns 255
+
+map_Ka Part3_diff.png
+map_Kd Part3_diff.png
+map_d Part3_diff.png
+
+map_Bump Part3_nmap.png
+
+map_Ns Part3_spec.png
+
+newmtl Ceiling2Mtl
+Material Color
+Ka 1 1 1
+Kd 1 1 1
+Ks 0.396078 0.396078 0.396078 
+
+d 0.101961
+
+Ns 0
+
+map_Ka Ceiling2_diff.png
+map_Kd Ceiling2_diff.png
+map_d Ceiling2_diff.png
+
+newmtl Mat3Mtl
+Material Color
+Ka 0.353741 0.363604 0.420508
+Kd 0.353741 0.363604 0.420508
+Ks 0.0138722 0.014259 0.0164905 
+
+d 1
+
+Ns 0
+
+map_Ka Hinges1_diff.png
+map_Kd Hinges1_diff.png
+map_d Hinges1_diff.png
+
+map_Bump Hinges1_nmap.png
+
+map_Ns Hinges1_spec.png
+
+newmtl Roofsupport2Mtl
+Material Color
+Ka 1 1 1
+Kd 1 1 1
+Ks 0.396078 0.396078 0.396078 
+
+d 0.101961
+
+Ns 0
+
+map_Ka Part17_diff.png
+map_Kd Part17_diff.png
+map_d Part17_diff.png
+
+newmtl Part16Mtl
+Material Color
+Ka 0.560499 0.0169881 0.00775103
+Kd 0.560499 0.0169881 0.00775103
+Ks 0.373666 0.0113254 0.00516735 
+
+d 1
+
+Ns 255
+
+map_Ka Part3_diff.png
+map_Kd Part3_diff.png
+map_d Part3_diff.png
+
+map_Bump Part3_nmap.png
+
+map_Ns Part3_spec.png
+
+newmtl Deliverystarter1Mtl
+Material Color
+Ka 0.373615 0.368591 0.383775
+Kd 0.373615 0.368591 0.383775
+Ks 0.0234425 0.0231273 0.02408 
+
+d 1
+
+Ns 0
+
+newmtl Concretebase1Mtl
+Material Color
+Ka 0.353741 0.363604 0.420508
+Kd 0.353741 0.363604 0.420508
+Ks 0.0152594 0.0156849 0.0181396 
+
+d 1
+
+Ns 0
+
+map_Ka Concretebase1_diff.png
+map_Kd Concretebase1_diff.png
+map_d Concretebase1_diff.png
+
+map_Bump Concretebase1_nmap.png
+
+map_Ns Concretebase1_spec.png
+
+newmtl Bingkai1Mtl
+Material Color
+Ka 0.373615 0.368591 0.383775
+Kd 0.373615 0.368591 0.383775
+Ks 0.249077 0.245727 0.25585 
+
+d 1
+
+Ns 255
+
+map_Ka Part3_diff.png
+map_Kd Part3_diff.png
+map_d Part3_diff.png
+
+map_Bump Part3_nmap.png
+
+map_Ns Part3_spec.png
+
+newmtl Floor2Mtl
+Material Color
+Ka 1 1 1
+Kd 1 1 1
+Ks 0.396078 0.396078 0.396078 
+
+d 0.2
+
+Ns 0
+
+map_Ka Floor2_diff.png
+map_Kd Floor2_diff.png
+map_d Floor2_diff.png
+
+newmtl PostOfficer1Mtl
+Material Color
+Ka 1 1 1
+Kd 1 1 1
+Ks 0.0627451 0.0627451 0.0627451 
+
+d 1
+
+Ns 0
+
+map_Ka PostOfficer1_diff.png
+map_Kd PostOfficer1_diff.png
+map_d PostOfficer1_diff.png
+
+newmtl FileBox1Mtl
+Material Color
+Ka 0.659224 0.523443 0.311181
+Kd 0.659224 0.523443 0.311181
+Ks 0.0413631 0.0328435 0.0195251 
+
+d 1
+
+Ns 0
+
+newmtl Part124Mtl
+Material Color
+Ka 1 1 1
+Kd 1 1 1
+Ks 0.396078 0.396078 0.396078 
+
+d 1
+
+Ns 0
+
+map_Ka Part124_diff.png
+map_Kd Part124_diff.png
+map_d Part124_diff.png
+
+newmtl Handle1Mtl
+Material Color
+Ka 1 1 1
+Kd 1 1 1
+Ks 0.0627451 0.0627451 0.0627451 
+
+d 1
+
+Ns 0
+
+map_Ka Handle1_diff.png
+map_Kd Handle1_diff.png
+map_d Handle1_diff.png
+
+newmtl Part17Mtl
+Material Color
+Ka 1 1 1
+Kd 1 1 1
+Ks 0.666667 0.666667 0.666667 
+
+d 0.101961
+
+Ns 255
+
+map_Ka Part17_diff.png
+map_Kd Part17_diff.png
+map_d Part17_diff.png
+
+newmtl Door4Mtl
+Material Color
+Ka 0.151058 0.0962661 0.0677246
+Kd 0.151058 0.0962661 0.0677246
+Ks 0.00829338 0.0052852 0.00371821 
+
+d 1
+
+Ns 0
+
+map_Ka Door4_diff.png
+map_Kd Door4_diff.png
+map_d Door4_diff.png
+
+map_Bump Door4_nmap.png
+
+map_Ns Door4_spec.png
+
+newmtl Handle2Mtl
+Material Color
+Ka 1 1 1
+Kd 1 1 1
+Ks 0.0627451 0.0627451 0.0627451 
+
+d 1
+
+Ns 0
+
+map_Ka Handle2_diff.png
+map_Kd Handle2_diff.png
+map_d Handle2_diff.png
+
+newmtl Pillar1Mtl
+Material Color
+Ka 0.598942 0.605484 0.645555
+Kd 0.598942 0.605484 0.645555
+Ks 0.237228 0.239819 0.255691 
+
+d 1
+
+Ns 0
+
+newmtl Mesh1Mtl
+Material Color
+Ka 1 1 1
+Kd 1 1 1
+Ks 0.0627451 0.0627451 0.0627451 
+
+d 1
+
+Ns 0
+
+map_Ka Mesh1_diff.png
+map_Kd Mesh1_diff.png
+map_d Mesh1_diff.png
+
+newmtl Sign2Mtl
+Material Color
+Ka 0.0461488 0.0461488 0.0461488
+Kd 0.0461488 0.0461488 0.0461488
+Ks 0.0182786 0.0182786 0.0182786 
+
+d 1
+
+Ns 0
+
+map_Ka Sign2_diff.png
+map_Kd Sign2_diff.png
+map_d Sign2_diff.png
+
+newmtl Pillar13Mtl
+Material Color
+Ka 0.0342302 0.0342302 0.0342302
+Kd 0.0342302 0.0342302 0.0342302
+Ks 0.0135578 0.0135578 0.0135578 
+
+d 1
+
+Ns 0
+
+newmtl Pillar16Mtl
+Material Color
+Ka 0.315763 0 0
+Kd 0.315763 0 0
+Ks 0.125067 0 0 
+
+d 1
+
+Ns 0
+
+newmtl WaterIPromise1Mtl
+Material Color
+Ka 0.632043 0.708298 0.781751
+Kd 0.632043 0.708298 0.781751
+Ks 0.0917082 0.102773 0.11343 
+
+d 0.603922
+
+Ns 0
+
+map_Ka WaterIPromise1_diff.png
+map_Kd WaterIPromise1_diff.png
+map_d WaterIPromise1_diff.png
+
+map_Bump WaterIPromise1_nmap.png
+
+map_Ns WaterIPromise1_spec.png
+
+newmtl Sign1Mtl
+Material Color
+Ka 0.560499 0.0169881 0.00775103
+Kd 0.560499 0.0169881 0.00775103
+Ks 0.222002 0.0067286 0.00307001 
+
+d 1
+
+Ns 0
+
+newmtl DaikinLogoFixed1Mtl
+Material Color
+Ka 0.124741 0.113921 0.121986
+Kd 0.124741 0.113921 0.121986
+Ks 0.0494072 0.0451216 0.0483159 
+
+d 1
+
+Ns 0
+
+newmtl Floor3Mtl
+Material Color
+Ka 0.259027 0.176774 0.130352
+Kd 0.259027 0.176774 0.130352
+Ks 0.102595 0.0700165 0.0516297 
+
+d 1
+
+Ns 0
+
+newmtl Floor4Mtl
+Material Color
+Ka 1 1 1
+Kd 1 1 1
+Ks 0.396078 0.396078 0.396078 
+
+d 0.501961
+
+Ns 0
+
+map_Ka Floor4_diff.png
+map_Kd Floor4_diff.png
+map_d Floor4_diff.png
+
+newmtl Window2Mtl
+Material Color
+Ka 1 1 1
+Kd 1 1 1
+Ks 0.396078 0.396078 0.396078 
+
+d 1
+
+Ns 0
+
+map_Ka Window2_diff.png
+map_Kd Window2_diff.png
+map_d Window2_diff.png
+
+newmtl Window1Mtl
+Material Color
+Ka 0.00715504 0.018913 0.0315514
+Kd 0.00715504 0.018913 0.0315514
+Ks 0.00283396 0.00749103 0.0124968 
+
+d 0.803922
+
+Ns 0
+
+newmtl Papanbelakang1Mtl
+Material Color
+Ka 0.00715504 0.018913 0.0315514
+Kd 0.00715504 0.018913 0.0315514
+Ks 0.000392826 0.00103836 0.00173223 
+
+d 1
+
+Ns 0
+
+map_Ka Door4_diff.png
+map_Kd Door4_diff.png
+map_d Door4_diff.png
+
+map_Bump Door4_nmap.png
+
+map_Ns Door4_spec.png
+
+newmtl Part3Mtl
+Material Color
+Ka 0.598942 0.605484 0.645555
+Kd 0.598942 0.605484 0.645555
+Ks 0.399295 0.403656 0.43037 
+
+d 1
+
+Ns 255
+
+map_Ka Part3_diff.png
+map_Kd Part3_diff.png
+map_d Part3_diff.png
+
+map_Bump Part3_nmap.png
+
+map_Ns Part3_spec.png
+
+newmtl Union1Mtl
+Material Color
+Ka 0.940601 0.940601 0.940601
+Kd 0.940601 0.940601 0.940601
+Ks 0.372552 0.372552 0.372552 
+
+d 1
+
+Ns 0
+
+newmtl Meshpart2Mtl
+Material Color
+Ka 0.373615 0.368591 0.383775
+Kd 0.373615 0.368591 0.383775
+Ks 0.147981 0.145991 0.152005 
+
+d 1
+
+Ns 0
+
+newmtl Shelf1Mtl
+Material Color
+Ka 0.124741 0.113921 0.121986
+Kd 0.124741 0.113921 0.121986
+Ks 0.0831606 0.0759473 0.0813238 
+
+d 1
+
+Ns 255
+
+map_Ka Part3_diff.png
+map_Kd Part3_diff.png
+map_d Part3_diff.png
+
+map_Bump Part3_nmap.png
+
+map_Ns Part3_spec.png
+
+newmtl Part31Mtl
+Material Color
+Ka 0.00258583 0.00258583 0.00258583
+Kd 0.00258583 0.00258583 0.00258583
+Ks 0.00172388 0.00172388 0.00172388 
+
+d 1
+
+Ns 255
+
+map_Ka Part3_diff.png
+map_Kd Part3_diff.png
+map_d Part3_diff.png
+
+map_Bump Part3_nmap.png
+
+map_Ns Part3_spec.png
+
+newmtl Meshpart1Mtl
+Material Color
+Ka 0.00258583 0.00258583 0.00258583
+Kd 0.00258583 0.00258583 0.00258583
+Ks 0.00102419 0.00102419 0.00102419 
+
+d 1
+
+Ns 0
+
+newmtl Roofsupport1Mtl
+Material Color
+Ka 0.505432 0.511398 0.547994
+Kd 0.505432 0.511398 0.547994
+Ks 0.200191 0.202554 0.217048 
+
+d 1
+
+Ns 0
+
+newmtl Frame1Mtl
+Material Color
+Ka 0.353741 0.363604 0.420508
+Kd 0.353741 0.363604 0.420508
+Ks 0.140109 0.144016 0.166554 
+
+d 1
+
+Ns 0
+
+newmtl Part8Mtl
+Material Color
+Ka 0.851252 0.827726 0.827726
+Kd 0.851252 0.827726 0.827726
+Ks 0.337162 0.327844 0.327844 
+
+d 1
+
+Ns 0
+
+newmtl Prop6Mtl
+Material Color
+Ka 0.373615 0.368591 0.383775
+Kd 0.373615 0.368591 0.383775
+Ks 0.0322335 0.0318 0.03311 
+
+d 1
+
+Ns 255
+
+map_Ka Prop6_diff.png
+map_Kd Prop6_diff.png
+map_d Prop6_diff.png
+
+map_Bump Prop6_nmap.png
+
+map_Ns Prop6_spec.png
+
+newmtl Union3Mtl
+Material Color
+Ka 0.353741 0.363604 0.420508
+Kd 0.353741 0.363604 0.420508
+Ks 0.235827 0.242403 0.280339 
+
+d 1
+
+Ns 255
+
+map_Ka Part3_diff.png
+map_Kd Part3_diff.png
+map_d Part3_diff.png
+
+map_Bump Part3_nmap.png
+
+map_Ns Part3_spec.png
+
+newmtl Door2Mtl
+Material Color
+Ka 0.00715504 0.018913 0.0315514
+Kd 0.00715504 0.018913 0.0315514
+Ks 0.00283396 0.00749103 0.0124968 
+
+d 0.501961
+
+Ns 0
+
+newmtl Interiorwall25Mtl
+Material Color
+Ka 0.00715504 0.018913 0.0315514
+Kd 0.00715504 0.018913 0.0315514
+Ks 0.00283396 0.00749103 0.0124968 
+
+d 1
+
+Ns 0
+
+newmtl Part9Mtl
+Material Color
+Ka 0.560499 0.0169881 0.00775103
+Kd 0.560499 0.0169881 0.00775103
+Ks 0.0351686 0.00106592 0.000486339 
+
+d 1
+
+Ns 0
+
+newmtl Union7Mtl
+Material Color
+Ka 0.103634 0.108711 0.14198
+Kd 0.103634 0.108711 0.14198
+Ks 0.0690894 0.0724741 0.0946535 
+
+d 1
+
+Ns 255
+
+map_Ka Part3_diff.png
+map_Kd Part3_diff.png
+map_d Part3_diff.png
+
+map_Bump Part3_nmap.png
+
+map_Ns Part3_spec.png
+
+newmtl Roofing1Mtl
+Material Color
+Ka 0.0342302 0.0342302 0.0342302
+Kd 0.0342302 0.0342302 0.0342302
+Ks 0.0014766 0.0014766 0.0014766 
+
+d 1
+
+Ns 0
+
+map_Ka Concretebase1_diff.png
+map_Kd Concretebase1_diff.png
+map_d Concretebase1_diff.png
+
+map_Bump Concretebase1_nmap.png
+
+map_Ns Concretebase1_spec.png
+
+newmtl Jeriji1Mtl
+Material Color
+Ka 0.20471 0.212044 0.242796
+Kd 0.20471 0.212044 0.242796
+Ks 0.0810813 0.0839862 0.0961664 
+
+d 1
+
+Ns 0
+
+newmtl Bulb1Mtl
+Material Color
+Ka 0.940601 0.940601 0.940601
+Kd 0.940601 0.940601 0.940601
+Ks 0.0848385 0.0848385 0.0848385 
+
+d 1
+
+Ns 0
+
+newmtl Cover1Mtl
+Material Color
+Ka 0.103634 0.108711 0.14198
+Kd 0.103634 0.108711 0.14198
+Ks 0.0410472 0.0430581 0.0562353 
+
+d 1
+
+Ns 0
+
+newmtl Part30Mtl
+Material Color
+Ka 0.227137 0.234895 0.271577
+Kd 0.227137 0.234895 0.271577
+Ks 0.227137 0.234895 0.271577 
+
+d 1
+
+Ns 0
+
+map_Ka Part30_diff.png
+map_Kd Part30_diff.png
+map_d Part30_diff.png
+
+map_Bump Part30_nmap.png
+
+map_Ns Part30_spec.png
+
+newmtl Part41Mtl
+Material Color
+Ka 0.789314 0.781751 0.74453
+Kd 0.789314 0.781751 0.74453
+Ks 0.0495256 0.049051 0.0467156 
+
+d 1
+
+Ns 0
+
+newmtl ModernCarpet1Mtl
+Material Color
+Ka 0.0342302 0.0342302 0.0342302
+Kd 0.0342302 0.0342302 0.0342302
+Ks 0.00214778 0.00214778 0.00214778 
+
+d 1
+
+Ns 0
+
+newmtl Lining1Mtl
+Material Color
+Ka 0.271577 0.280124 0.320382
+Kd 0.271577 0.280124 0.320382
+Ks 0.107566 0.110951 0.126896 
+
+d 1
+
+Ns 0
+
+newmtl Roofing3Mtl
+Material Color
+Ka 1 1 1
+Kd 1 1 1
+Ks 0.0431373 0.0431373 0.0431373 
+
+d 0.101961
+
+Ns 0
+
+map_Ka Part17_diff.png
+map_Kd Part17_diff.png
+map_d Part17_diff.png
+
+newmtl Union19Mtl
+Material Color
+Ka 0.103634 0.103634 0.103634
+Kd 0.103634 0.103634 0.103634
+Ks 0.00447049 0.00447049 0.00447049 
+
+d 1
+
+Ns 0
+
+map_Ka Concretebase1_diff.png
+map_Kd Concretebase1_diff.png
+map_d Concretebase1_diff.png
+
+map_Bump Concretebase1_nmap.png
+
+map_Ns Concretebase1_spec.png
+
+newmtl Hinges1Mtl
+Material Color
+Ka 0.804559 0.804559 0.84337
+Kd 0.804559 0.804559 0.84337
+Ks 0.0315513 0.0315513 0.0330733 
+
+d 1
+
+Ns 0
+
+map_Ka Hinges1_diff.png
+map_Kd Hinges1_diff.png
+map_d Hinges1_diff.png
+
+map_Bump Hinges1_nmap.png
+
+map_Ns Hinges1_spec.png
+
+newmtl Union25Mtl
+Material Color
+Ka 0.284452 0.293216 0.339223
+Kd 0.284452 0.293216 0.339223
+Ks 0.017848 0.0183979 0.0212846 
+
+d 1
+
+Ns 0
+
+newmtl Colourcode1Mtl
+Material Color
+Ka 0.0169881 0.215764 0.0600316
+Kd 0.0169881 0.215764 0.0600316
+Ks 0.0067286 0.0854596 0.0237772 
+
+d 1
+
+Ns 0
+
+newmtl Part42Mtl
+Material Color
+Ka 1 1 1
+Kd 1 1 1
+Ks 0.0627451 0.0627451 0.0627451 
+
+d 1
+
+Ns 0
+
+map_Ka Part42_diff.png
+map_Kd Part42_diff.png
+map_d Part42_diff.png
+
+newmtl Chair1Mtl
+Material Color
+Ka 0.0289912 0.0289912 0.0289912
+Kd 0.0289912 0.0289912 0.0289912
+Ks 0.00181905 0.00181905 0.00181905 
+
+d 1
+
+Ns 0
+
+newmtl CopyMachine1Mtl
+Material Color
+Ka 0.353741 0.363604 0.420508
+Kd 0.353741 0.363604 0.420508
+Ks 0.0221955 0.0228144 0.0263848 
+
+d 1
+
+Ns 0
+
+newmtl Prop1Mtl
+Material Color
+Ka 0.373615 0.368591 0.383775
+Kd 0.373615 0.368591 0.383775
+Ks 0.0322335 0.0318 0.03311 
+
+d 1
+
+Ns 255
+
+map_Ka Prop1_diff.png
+map_Kd Prop1_diff.png
+map_d Prop1_diff.png
+
+map_Bump Prop1_nmap.png
+
+map_Ns Prop1_spec.png
+
+newmtl Union31Mtl
+Material Color
+Ka 0.804559 0.804559 0.84337
+Kd 0.804559 0.804559 0.84337
+Ks 0.318669 0.318669 0.334041 
+
+d 1
+
+Ns 0
+
+newmtl Meshpart14Mtl
+Material Color
+Ka 1 1 1
+Kd 1 1 1
+Ks 0.027451 0.027451 0.027451 
+
+d 1
+
+Ns 0
+
+map_Ka Meshpart14_diff.png
+map_Kd Meshpart14_diff.png
+map_d Meshpart14_diff.png
+
+newmtl Sign21Mtl
+Material Color
+Ka 1 1 1
+Kd 1 1 1
+Ks 0.396078 0.396078 0.396078 
+
+d 1
+
+Ns 0
+
+map_Ka Sign21_diff.png
+map_Kd Sign21_diff.png
+map_d Sign21_diff.png
+
+newmtl Pump2Mtl
+Material Color
+Ka 0.0600316 0.348865 0.136099
+Kd 0.0600316 0.348865 0.136099
+Ks 0.0237772 0.138178 0.0539057 
+
+d 1
+
+Ns 0
+
+newmtl Prop4Mtl
+Material Color
+Ka 0.373615 0.368591 0.383775
+Kd 0.373615 0.368591 0.383775
+Ks 0.0322335 0.0318 0.03311 
+
+d 1
+
+Ns 255
+
+map_Ka Prop4_diff.png
+map_Kd Prop4_diff.png
+map_d Prop4_diff.png
+
+map_Bump Prop4_nmap.png
+
+map_Ns Prop4_spec.png
+
+newmtl Styrofoam1Mtl
+Material Color
+Ka 0.0111261 0.0869013 0.493616
+Kd 0.0111261 0.0869013 0.493616
+Ks 0.00741739 0.0579342 0.329077 
+
+d 1
+
+Ns 255
+
+map_Ka Part3_diff.png
+map_Kd Part3_diff.png
+map_d Part3_diff.png
+
+map_Bump Part3_nmap.png
+
+map_Ns Part3_spec.png
+
+newmtl Styrofoam2Mtl
+Material Color
+Ka 1 1 1
+Kd 1 1 1
+Ks 0.666667 0.666667 0.666667 
+
+d 1
+
+Ns 255
+
+map_Ka Styrofoam2_diff.png
+map_Kd Styrofoam2_diff.png
+map_d Styrofoam2_diff.png
+
+newmtl Mouse1Mtl
+Material Color
+Ka 0.0151752 0.0160677 0.0209511
+Kd 0.0151752 0.0160677 0.0209511
+Ks 0.00601058 0.00636407 0.00829829 
+
+d 1
+
+Ns 0
+
+newmtl Mat1Mtl
+Material Color
+Ka 0.598942 0.529523 0.373615
+Kd 0.598942 0.529523 0.373615
+Ks 0.237228 0.209733 0.147981 
+
+d 1
+
+Ns 0
+
+newmtl Realscreen1Mtl
+Material Color
+Ka 0.00715504 0.018913 0.0315514
+Kd 0.00715504 0.018913 0.0315514
+Ks 0.00715504 0.018913 0.0315514 
+
+d 1
+
+Ns 0
+
+map_Ka Part30_diff.png
+map_Kd Part30_diff.png
+map_d Part30_diff.png
+
+map_Bump Part30_nmap.png
+
+map_Ns Part30_spec.png
+
+newmtl Wedge1Mtl
+Material Color
+Ka 0.0277553 0.0289912 0.0384727
+Kd 0.0277553 0.0289912 0.0384727
+Ks 0.0109933 0.0114828 0.0152382 
+
+d 1
+
+Ns 0
+
+newmtl Papers1Mtl
+Material Color
+Ka 1 1 1
+Kd 1 1 1
+Ks 0.0627451 0.0627451 0.0627451 
+
+d 1
+
+Ns 0
+
+map_Ka Papers1_diff.png
+map_Kd Papers1_diff.png
+map_d Papers1_diff.png
+
+newmtl Union122Mtl
+Material Color
+Ka 0.505432 0.45908 0.453456
+Kd 0.505432 0.45908 0.453456
+Ks 0.200191 0.181832 0.179604 
+
+d 1
+
+Ns 0
+
+newmtl ModernCarpet2Mtl
+Material Color
+Ka 1 1 1
+Kd 1 1 1
+Ks 0.0627451 0.0627451 0.0627451 
+
+d 0.501961
+
+Ns 0
+
+map_Ka ModernCarpet2_diff.png
+map_Kd ModernCarpet2_diff.png
+map_d ModernCarpet2_diff.png
+
+newmtl Liquid1Mtl
+Material Color
+Ka 0.940601 0.940601 0.940601
+Kd 0.940601 0.940601 0.940601
+Ks 0.372552 0.372552 0.372552 
+
+d 0.603922
+
+Ns 0
+
+newmtl Bottle1Mtl
+Material Color
+Ka 0.940601 0.940601 0.940601
+Kd 0.940601 0.940601 0.940601
+Ks 0.372552 0.372552 0.372552 
+
+d 0.301961
+
+Ns 0
+
+newmtl Part94Mtl
+Material Color
+Ka 0.598942 0.605484 0.645555
+Kd 0.598942 0.605484 0.645555
+Ks 0.0375807 0.0379912 0.0405054 
+
+d 1
+
+Ns 0
+
+newmtl Part99Mtl
+Material Color
+Ka 0.687031 0.56681 0.329729
+Kd 0.687031 0.56681 0.329729
+Ks 0.0377193 0.031119 0.0181028 
+
+d 1
+
+Ns 0
+
+map_Ka Door4_diff.png
+map_Kd Door4_diff.png
+map_d Door4_diff.png
+
+map_Bump Door4_nmap.png
+
+map_Ns Door4_spec.png
+
+newmtl Part125Mtl
+Material Color
+Ka 0.940601 0.940601 0.940601
+Kd 0.940601 0.940601 0.940601
+Ks 0.0590181 0.0590181 0.0590181 
+
+d 0.4
+
+Ns 0
+
+newmtl Union310Mtl
+Material Color
+Ka 0.373615 0.0677246 0.0677246
+Kd 0.373615 0.0677246 0.0677246
+Ks 0.147981 0.0268243 0.0268243 
+
+d 1
+
+Ns 0
+
+newmtl Handle4Mtl
+Material Color
+Ka 0.00715504 0.018913 0.0315514
+Kd 0.00715504 0.018913 0.0315514
+Ks 0.000448943 0.0011867 0.0019797 
+
+d 1
+
+Ns 0
+
+newmtl Fabric1Mtl
+Material Color
+Ka 0.21952 0.22331 0.259027
+Kd 0.21952 0.22331 0.259027
+Ks 0.0137738 0.0140116 0.0162527 
+
+d 1
+
+Ns 0
+
+newmtl Union313Mtl
+Material Color
+Ka 0.415148 0.399293 0.348865
+Kd 0.415148 0.399293 0.348865
+Ks 0.164431 0.158151 0.138178 
+
+d 1
+
+Ns 0
+
