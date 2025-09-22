@@ -78,7 +78,6 @@ public class PlayerController : MonoBehaviour
 
     public void OnJumpInput(InputAction.CallbackContext context)
     {
-        Debug.Log($"Tried Jump | isGrounded: {isGrounded}");
         if (context.performed && isGrounded)
         {
             rigidBody.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
@@ -178,7 +177,5 @@ public class PlayerController : MonoBehaviour
         Vector3 origin = transform.position + Vector3.up * -0.4f; // 플레이어 아래쪽으로 origin 이동
         bool hitGround = Physics.SphereCast(origin, 0.2f, Vector3.down, out RaycastHit hit, groundCheckDistance + 0.1f, groundLayer);
         isGrounded = hitGround;
-        if (hitGround)
-            Debug.Log("Ground hit: " + hit.collider.gameObject.name);
     }
 }
