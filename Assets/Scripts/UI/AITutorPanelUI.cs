@@ -34,6 +34,11 @@ namespace UI
                 chatPanelRoot.SetActive(newState);
                 if (scrollbarVertical != null)
                     scrollbarVertical.SetActive(newState); // 강제로 동기화
+                // 패널이 열릴 때만 InputField에 포커스
+                if (newState && inputField != null)
+                {
+                    inputField.ActivateInputField();
+                }
             }
         }
 

@@ -522,3 +522,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4294967295
   groundCheckDistance: 0.3
+  interactDistance: 2
+  interactableLayer:
+    serializedVersion: 2
+    m_Bits: 0

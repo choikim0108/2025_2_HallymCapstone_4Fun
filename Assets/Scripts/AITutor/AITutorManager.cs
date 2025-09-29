@@ -65,7 +65,7 @@ public class AITutorManager : MonoBehaviour
     
     [TextArea(3, 10)]
     [Tooltip("챗봇에게 전달할 초기 시스템 인스트럭션입니다. 챗봇의 역할과 행동 방식을 정의합니다.")]
-    public string initialInstruction = "안녕하세요, 챗봇과 대화를 시작합니다. 아래 instruction을 참고하세요.";
+    public string initialInstruction = "Hello, start a conversation with an AI tutor.";
 
     [Tooltip("대화 기록에 유지할 최대 메시지 수입니다. 너무 많은 메시지는 응답 속도를 늦출 수 있습니다.")]
     public int maxMessageHistory = 10;
@@ -195,7 +195,7 @@ public class AITutorManager : MonoBehaviour
     {
         if (string.IsNullOrEmpty(apiKey))
         {
-            Debug.LogError("API 키가 설정되지 않았습니다. API 요청을 보낼 수 없습니다.");
+            Debug.LogError("API 키가 설정되지 않았습니다.. API 요청을 보낼 수 없습니다.");
             yield break;
         }
 

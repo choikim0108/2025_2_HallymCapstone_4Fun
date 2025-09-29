@@ -60,7 +60,18 @@ namespace Controller
             m_IsRun = Input.GetKey(m_RunKey);
             m_IsJump = Input.GetButton(m_JumpButton);
 
-            m_Target = (m_Camera == null) ? Vector3.zero : m_Camera.Target;
+            // 카메라의 forward(y축만) 벡터를 m_Target에 전달
+            if (m_Camera != null)
+            {
+                Vector3 camForward = m_Camera.transform.forward;
+                camForward.y = 0f;
+                camForward.Normalize();
+                m_Target = camForward;
+            }
+            else
+            {
+                m_Target = Vector3.forward;
+            }
             m_MouseDelta = new Vector2(Input.GetAxis(m_MouseX), Input.GetAxis(m_MouseY));
             m_Scroll = Input.GetAxis(m_MouseScroll);
         }
