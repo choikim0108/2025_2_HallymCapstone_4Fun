@@ -24,6 +24,8 @@ namespace UI
                 sendButton.onClick.AddListener(SendMessageToAI);
             if (chatPanelRoot != null)
                 chatPanelRoot.SetActive(false);
+            // 최초 실행 시 AITutorPanelUI 오브젝트도 비활성화
+            this.gameObject.SetActive(false);
         }
 
         public void TogglePanel()
@@ -32,6 +34,8 @@ namespace UI
             {
                 bool newState = !chatPanelRoot.activeSelf;
                 chatPanelRoot.SetActive(newState);
+                // AITutorPanelUI 오브젝트 자체도 같이 활성화/비활성화
+                this.gameObject.SetActive(newState);
                 if (scrollbarVertical != null)
                     scrollbarVertical.SetActive(newState); // 강제로 동기화
                 // 패널이 열릴 때만 InputField에 포커스

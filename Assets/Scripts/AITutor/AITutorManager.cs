@@ -45,6 +45,8 @@ public class AuthData {
 
 public class AITutorManager : MonoBehaviour
 {
+    [Header("AI Tutor Prompt Profile")]
+    public AITutor.AITutorPromptProfile promptProfile;
     [Header("UI Manager")]
     public ChatUIManager chatUIManager;
     // Inspector에 노출되지 않도록 private const로 선언하여 잘못된 값이 덮어씌워지지 않게 합니다.
@@ -139,11 +141,45 @@ public class AITutorManager : MonoBehaviour
     {
         messages.Clear();
 
-        ChatMessage systemMessage = new ChatMessage { role = "system", content = initialInstruction };
+
+        // promptProfile이 할당되어 있으면 systemPrompt, tone, forbiddenTopics, glossary를 모두 활용
+        string systemMsg = initialInstruction;
+        if (promptProfile != null)
+        {
+            System.Text.StringBuilder sb = new System.Text.StringBuilder();
+            if (!string.IsNullOrWhiteSpace(promptProfile.systemPrompt))
+            {
+                sb.AppendLine(promptProfile.systemPrompt);
+            }
+            if (!string.IsNullOrWhiteSpace(promptProfile.tone))
+            {
+                sb.AppendLine($"\n[말투 지침] 반드시 '{promptProfile.tone}'로 대화하세요.");
+            }
+            if (promptProfile.forbiddenTopics != null && promptProfile.forbiddenTopics.Length > 0)
+            {
+                sb.AppendLine("\n[금지 주제/답변] 아래 주제나 답변은 절대 하지 마세요:");
+                foreach (var topic in promptProfile.forbiddenTopics)
+                {
+                    if (!string.IsNullOrWhiteSpace(topic))
+                        sb.AppendLine("- " + topic);
+                }
+            }
+            if (promptProfile.glossary != null && promptProfile.glossary.Length > 0)
+            {
+                sb.AppendLine("\n[게임 용어 설명] 아래 용어를 참고해 대화에 반영하세요:");
+                foreach (var entry in promptProfile.glossary)
+                {
+                    if (!string.IsNullOrWhiteSpace(entry))
+                        sb.AppendLine("- " + entry);
+                }
+            }
+            systemMsg = sb.ToString().Trim();
+        }
+        ChatMessage systemMessage = new ChatMessage { role = "system", content = systemMsg };
         messages.Add(systemMessage);
-        
+
         // 메시지 배열 업데이트
-    messageHistory = messages.ToArray();
+        messageHistory = messages.ToArray();
 
         // UI에도 초기 메시지 표시
         if (messages.Count > 0 && chatUIManager != null)
