@@ -178,7 +178,12 @@ namespace Controller
 
             public void Move(float deltaTime, in Vector2 axis, in Vector3 target, bool isRun, bool isJump, bool isMoving, out Vector2 animAxis, out bool isAir)
             {
-                var targetForward = Vector3.Normalize(target - m_Transform.position);
+                // target은 카메라의 forward(y축만) 벡터가 들어와야 함
+                Vector3 camForward = new Vector3(target.x, 0f, target.z).normalized;
+                if (camForward.sqrMagnitude < Mathf.Epsilon)
+                    camForward = m_Transform.forward; // fallback
+
+                var targetForward = camForward;
 
                 ConvertMovement(in axis, in targetForward, out var movement);
                 CaculateGravity(isJump, deltaTime, out isAir);
