@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Controller
 {
-    public abstract class PlayerCamera : MonoBehaviour
+    public abstract class PlayerCamera : Photon.Pun.MonoBehaviourPun
     {
         private const float MIN_DISTANCE = 1f;
         private const float MAX_DISTANCE = 10f;
@@ -38,34 +38,36 @@ namespace Controller
         protected virtual void Awake()
         {
             m_Transform = transform;
-
             m_Target = new GameObject($"Target_{gameObject.name}").transform;
-            if(m_Transform.parent != null)
+            if (m_Transform.parent != null)
             {
                 m_Target.transform.parent = m_Transform.parent;
             }
+            // photonView.IsMine 체크 및 this.enabled = false; 완전히 제거!
         }
+        
 
-        public void SetPlayer(Transform player) {
+        public void SetPlayer(Transform player)
+        {
             m_Player = player;
         }
 
         public virtual void SetInput(in Vector2 delta, float scroll)
         {
-            
+
             var beforeAngles = m_Angles;
             m_Angles += new Vector2(delta.y * m_SensitivityY, delta.x * m_SensitivityX) * 360f;
             m_Angles.x = Mathf.Clamp(m_Angles.x, m_MinAngle, m_MaxAngle);
-            
+
 
             var beforeZoom = m_Zoom;
             m_Zoom += scroll * m_SensetivityZoom;
             m_Zoom = Mathf.Clamp01(m_Zoom);
-            
+
 
             var beforeDist = m_Distance;
             m_Distance = (1f - m_Zoom) * (MAX_DISTANCE - MIN_DISTANCE) + MIN_DISTANCE;
-            
+
         }
     }
 }

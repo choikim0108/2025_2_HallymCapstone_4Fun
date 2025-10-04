@@ -1,12 +1,13 @@
 using System;
 using UnityEngine;
+using Photon.Pun;
 
 namespace Controller
 {
     [RequireComponent(typeof(CharacterController))]
     [RequireComponent(typeof(Animator))]
     [DisallowMultipleComponent]
-    public class CharacterMover : MonoBehaviour
+    public class CharacterMover : MonoBehaviourPun
     {
         [Header("Movement")]
         [SerializeField]
@@ -70,9 +71,11 @@ namespace Controller
 
         private void Update()
         {
-            m_Movement.Move(Time.deltaTime, in m_Axis, in m_Target, m_IsRun, m_IsJump, m_IsMoving, out var animAxis, out var isAir);
-            m_Animation.Animate(in animAxis, m_IsRun? 1f : 0f, isAir, Time.deltaTime);
+            if (photonView != null && !photonView.IsMine)
+                return;
 
+            m_Movement.Move(Time.deltaTime, in m_Axis, in m_Target, m_IsRun, m_IsJump, m_IsMoving, out var animAxis, out var isAir);
+            m_Animation.Animate(in animAxis, m_IsRun ? 1f : 0f, isAir, Time.deltaTime);
         }
 
         private void OnAnimatorIK()

@@ -3,7 +3,7 @@ using UnityEngine;
 namespace Controller
 {
     [RequireComponent(typeof(CharacterMover))]
-    public class MovePlayerInput : MonoBehaviour
+    public class MovePlayerInput : Photon.Pun.MonoBehaviourPun
     {
         [Header("Character")]
         [SerializeField]
@@ -45,8 +45,12 @@ namespace Controller
             }
             if(m_Camera != null) {
                 m_Camera.SetPlayer(transform);
+                Debug.Log($"[MovePlayerInput] m_Camera.SetPlayer({transform.name}) 호출", m_Camera);
+            } else {
+                Debug.LogWarning("[MovePlayerInput] m_Camera가 할당되지 않음", this);
             }
         }
+
 
         private void Update()
         {
