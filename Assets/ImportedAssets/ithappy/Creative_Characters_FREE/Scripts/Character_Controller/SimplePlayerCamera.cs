@@ -1,13 +1,16 @@
 using UnityEngine;
 using Controller;
 
-public class SimplePlayerCamera : PlayerCamera
+public class SimplePlayerCamera : Controller.PlayerCamera
 {
     protected override void Awake()
     {
         base.Awake();
+        Debug.Log("[SimplePlayerCamera] Awake 호출", this);
         // 추가 세팅 필요시 여기에 작성
     }
+    // 비활성화 관련 코드는 PhotonLocalPlayerOnly에서 일괄 처리
+
 
     void LateUpdate()
     {

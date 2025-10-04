@@ -1,3 +1,12 @@
+# Firebase 관련 파일/폴더 무시
+firebase.json
+.firebaserc
+firebase-debug.log
+firebase-debug.*.log
+/firebase/
+/Firebase/
+/Assets/StreamingAssets/google-services.json
+/Assets/StreamingAssets/GoogleService-Info.plist
 # This .gitignore file should be placed at the root of your Unity project directory
 #
 # Get latest from https://github.com/github/gitignore/blob/main/Unity.gitignore
