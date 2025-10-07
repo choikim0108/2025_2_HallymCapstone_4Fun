@@ -3,11 +3,7 @@ Photon Realtime C# Client - Changelog
 www.photonengine.com  -  Join our Discord Server: https://dashboard.photonengine.com/account/profile
 
 
-Version 4.1.8.16 (31. July 2025 - rev8016)
-    Updated: Reference doc summary for Player.IsInactive.
-    Note: Minimal release to make a small update available for the Voice SDK.
-
-Version 4.1.8.15 (08. May 2025 - rev7931)
+Version 4.1.8.15 (05. May 2025 - rev7928)
     Changed: ConfigUnitySockets() for WebGL. It no longer logs a warning if the SocketWebTcp is missing in the Editor. It logs an error if the JS lib for WebSockets is missing.
     Changed: PingHttp will now use HTTPs as scheme unless it runs in Editor below Unity 6.
     Changed: When the app closes, the ConnectionHandler will set IsSimulationEnabled = false to work around a problem with closing the Network Sim Thread in some Unity 6 builds. Il2cpp builds were freezing on app quit, if the Network Simulation thread was running.

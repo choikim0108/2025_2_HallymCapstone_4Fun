@@ -12,7 +12,8 @@ GameObject:
   - component: {fileID: -2395030972283081766}
   - component: {fileID: -8646282463568376209}
   - component: {fileID: 6815703158087272856}
-  - component: {fileID: -1257011078565040457}
+  - component: {fileID: 8733755881977577810}
+  - component: {fileID: 4831737983527665671}
   m_Layer: 0
   m_Name: ChatMessagePrefab_USER
   m_TagString: Untagged
@@ -68,7 +69,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  m_Sprite: {fileID: 10911, guid: 0000000000000000f000000000000000, type: 0}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -96,9 +97,35 @@ MonoBehaviour:
   m_PreferredWidth: 100
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
-  m_FlexibleHeight: -1
+  m_FlexibleHeight: 1
   m_LayoutPriority: 1
---- !u!114 &-1257011078565040457
+--- !u!114 &8733755881977577810
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 751760191927803179}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59f8146938fff824cb5fd77236b75775, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.VerticalLayoutGroup
+  m_Padding:
+    m_Left: 1
+    m_Right: 1
+    m_Top: 1
+    m_Bottom: 1
+  m_ChildAlignment: 5
+  m_Spacing: 0
+  m_ChildForceExpandWidth: 0
+  m_ChildForceExpandHeight: 0
+  m_ChildControlWidth: 1
+  m_ChildControlHeight: 1
+  m_ChildScaleWidth: 0
+  m_ChildScaleHeight: 0
+  m_ReverseArrangement: 0
+--- !u!114 &4831737983527665671
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -123,7 +150,7 @@ GameObject:
   - component: {fileID: 7941251485406517178}
   - component: {fileID: 8645529778822639304}
   - component: {fileID: 7549406376051537084}
-  - component: {fileID: 4856857317789237123}
+  - component: {fileID: 4945133234901410639}
   m_Layer: 0
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -145,10 +172,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 7758135612012008416}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 1666.5801, y: -30}
+  m_SizeDelta: {x: 504.84, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8645529778822639304
 CanvasRenderer:
@@ -249,7 +276,7 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!114 &4856857317789237123
+--- !u!114 &4945133234901410639
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

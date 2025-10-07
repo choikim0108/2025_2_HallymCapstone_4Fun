@@ -118,7 +118,7 @@ namespace Photon.Realtime
             }
         }
 
-        /// <summary>If this player in the room is currently inactive (not being connected and not getting "live" events).</summary>
+        /// <summary>If this player is active in the room (and getting events which are currently being sent).</summary>
         /// <remarks>
         /// Inactive players keep their spot in a room but otherwise behave as if offline (no matter what their actual connection status is).
         /// The room needs a PlayerTTL != 0. If a player is inactive for longer than PlayerTTL, the server will remove this player from the room.
