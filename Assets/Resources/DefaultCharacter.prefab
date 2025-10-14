@@ -3022,9 +3022,10 @@ GameObject:
   - component: {fileID: 1631559920868970712}
   - component: {fileID: 5819192087195387875}
   - component: {fileID: 3165143439149645238}
+  - component: {fileID: -4510572737747536851}
   m_Layer: 0
   m_Name: DefaultCharacter
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3179,10 +3180,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e814e5b1d393ebd489c46c80c8182c63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerInteraction
-  checkRadius: 2
+  checkRadius: 3
   interactableLayer:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 64
+  currentTarget: {fileID: 0}
+  equippedTarget: 
 --- !u!114 &8837579995425452244
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3392,6 +3395,33 @@ MonoBehaviour:
     Max: 1000
     SpeedUpPerc: 5
   restartOnDeviceChange: 1
+--- !u!54 &-4510572737747536851
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7765487168582293408}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &7812687594695237914
 GameObject:
   m_ObjectHideFlags: 0
