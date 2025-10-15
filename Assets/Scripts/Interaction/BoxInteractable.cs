@@ -22,7 +22,7 @@ public class BoxInteractable : Interactable
         InteractUIHide();
 
         // 1) EquippedBoxUI 활성화 및 타입별 이미지/텍스트 변경
-        Debug.Log($"[BoxInteractable] Interact 호출됨, boxType: {boxType}");
+        Debug.Log($"[BoxInteractable][Interact] boxType: {boxType}, player: {player?.name}, playerViewID: {player?.GetComponent<PhotonView>()?.ViewID}");
         // 플레이어의 equippedBoxUI가 null이면 자동 할당
         if (player != null && player.equippedBoxUI == null)
         {
@@ -32,108 +32,98 @@ public class BoxInteractable : Interactable
                 var ui = canvas.transform.Find("EquippedBoxUI");
                 if (ui != null)
                     player.equippedBoxUI = ui.gameObject;
+                Debug.Log($"[BoxInteractable][Interact] EquippedBoxUI 자동 할당: {player.equippedBoxUI != null}");
             }
         }
+        // 박스 equip 직후 UI 컴포넌트 연결 재시도
+        if (player != null)
+            player.ConnectEquippedBoxUI();
         // 이후 equippedBoxUI로 UI 제어
         var uiObj = player != null ? player.equippedBoxUI : equippedBoxUI;
+        Debug.Log($"[BoxInteractable][Interact] EquippedBoxUI 찾기: {(uiObj != null ? "성공" : "실패")}, player: {player?.name}");
         if (uiObj != null)
         {
             uiObj.SetActive(true);
-            // FrozenTimer 활성화 조건
-            var frozenTimerObj = uiObj.transform.Find("FrozenTimer");
-            if (frozenTimerObj != null)
-                frozenTimerObj.gameObject.SetActive(boxType == BoxType.Frozen);
-            // ExplosionRateText 활성화 조건
-            var explosionRateObj = uiObj.transform.Find("ExplosionRate");
-            if (explosionRateObj != null)
+            Debug.Log($"[BoxInteractable][Interact] EquippedBoxUI 활성화: {uiObj.activeSelf}");
+            // EquippedBoxPanel 아래에서 특수 텍스트 제어 (활성화만, 텍스트 값은 PlayerInteraction에서 갱신)
+            var panel = uiObj.transform.Find("EquippedBoxPanel");
+            if (panel != null)
             {
-                explosionRateObj.gameObject.SetActive(boxType == BoxType.Explosive);
-                Debug.Log($"[BoxInteractable] ExplosionRateText 활성화: {boxType == BoxType.Explosive}");
-            }
-            else
-            {
-                Debug.LogWarning("[BoxInteractable] explosionRateText 연결 실패");
-            }
-
-            // BoxTypeImage 변경
-            var typeImageObj = uiObj.transform.Find("BoxTypeImage");
-            if (typeImageObj != null)
-            {
-                var image = typeImageObj.GetComponent<Image>();
-                if (image != null)
+                // FrozenTimer 활성화 조건
+                var frozenTimerObj = panel.Find("FrozenTimer");
+                if (frozenTimerObj != null)
+                    frozenTimerObj.gameObject.SetActive(boxType == BoxType.Frozen);
+                // ExplosionRateText 활성화 조건
+                var explosionRateObj = panel.Find("ExplosionRate");
+                if (explosionRateObj != null)
+                    explosionRateObj.gameObject.SetActive(boxType == BoxType.Explosive);
+                // BoxTypeImage 변경
+                var typeImageObj = panel.Find("BoxTypeImage");
+                if (typeImageObj != null)
                 {
-                    string imgName = boxType.ToString().ToLower();
-                    Debug.Log($"[BoxInteractable] 이미지 이름: {imgName}");
-                    var sprite = Resources.Load<Sprite>($"Images/{imgName}");
-                    Debug.Log($"[BoxInteractable] Sprite 로드: Images/{imgName}, 성공: {sprite != null}");
-                    if (sprite != null)
-                        image.sprite = sprite;
-                    else
-                        Debug.LogWarning($"[BoxInteractable] 이미지 로드 실패: Images/{imgName}");
-                }
-                else
-                {
-                    Debug.LogWarning("[BoxInteractable] BoxTypeImage에 Image 컴포넌트 없음");
-                }
-            }
-            else
-            {
-                Debug.LogWarning("[BoxInteractable] EquippedBoxUI에 BoxTypeImage 오브젝트 없음");
-            }
-
-            // BoxTypeText 변경
-            var typeTextObj = uiObj.transform.Find("BoxTypeText");
-            if (typeTextObj != null)
-            {
-                var tmp = typeTextObj.GetComponent<TMPro.TextMeshProUGUI>();
-                if (tmp != null)
-                {
-                    string typeText = "";
-                    switch (boxType)
+                    var image = typeImageObj.GetComponent<Image>();
+                    if (image != null)
                     {
-                        case BoxType.Normal: typeText = "Normal Box"; break;
-                        case BoxType.Fragile: typeText = "Fragile Box"; break;
-                        case BoxType.Heavy: typeText = "Heavy Box"; break;
-                        case BoxType.Explosive: typeText = "Explosive Box"; break;
-                        case BoxType.Frozen: typeText = "Frozen Box"; break;
+                        string imgName = boxType.ToString().ToLower();
+                        var sprite = Resources.Load<Sprite>($"Images/{imgName}");
+                        if (sprite != null)
+                            image.sprite = sprite;
                     }
-                    tmp.text = typeText;
+                }
+                // BoxTypeText 변경
+                var typeTextObj = panel.Find("BoxTypeText");
+                if (typeTextObj != null)
+                {
+                    var tmp = typeTextObj.GetComponent<TMPro.TextMeshProUGUI>();
+                    if (tmp != null)
+                    {
+                        string typeText = "";
+                        switch (boxType)
+                        {
+                            case BoxType.Normal: typeText = "Normal Box"; break;
+                            case BoxType.Fragile: typeText = "Fragile Box"; break;
+                            case BoxType.Heavy: typeText = "Heavy Box"; break;
+                            case BoxType.Explosive: typeText = "Explosive Box"; break;
+                            case BoxType.Frozen: typeText = "Frozen Box"; break;
+                        }
+                        tmp.text = typeText;
+                    }
                 }
             }
         }
         else
-            Debug.LogError("[BoxInteractable] EquippedBoxUI를 찾을 수 없습니다.");
+            Debug.LogError($"[BoxInteractable][Interact] EquippedBoxUI를 찾을 수 없습니다. player: {player?.name}");
 
-        // 2) 플레이어가 박스를 "가지고 있음" 상태로 변경 (이름만 저장)
+        // 2) 플레이어가 박스를 "가지고 있음" 상태로 변경 (데이터 전달)
         if (player != null)
         {
-            // 플레이어의 equippedTarget에 박스 이름만 저장
             player.equippedTarget = gameObject.name;
-            Debug.Log($"[BoxInteractable] Player has equipped {gameObject.name}");
-            // 박스 오브젝트는 모든 클라이언트에서 삭제
-            if (photonView != null)
-            {
-                photonView.RPC("DestroyBoxRPC", RpcTarget.All);
-                Debug.Log($"[BoxInteractable] {gameObject.name} destroyed on all clients.");
-            }
-            else
-                Debug.LogError($"[BoxInteractable] {gameObject.name} 에 PhotonView가 없습니다.");
-
-            // Explosive/Frozen 특수 로직 시작
+            player.equippedBoxType = boxType;
             if (boxType == BoxType.Explosive)
             {
-                isEquipped = true;
-                explosiveTick = 0f;
-                Debug.Log($"[BoxInteractable] Explosive 특수 로직 시작! isEquipped: {isEquipped}, explosiveTick: {explosiveTick}");
+                player.explosiveTick = 0f;
+                player.explosiveBaseChance = explosiveBaseChance;
+                player.explosiveChanceIncrease = explosiveChanceIncrease;
+                player.isExplosiveEquipped = true;
+            }
+            else
+            {
+                player.isExplosiveEquipped = false;
             }
             if (boxType == BoxType.Frozen)
             {
-                frozenActive = true;
-                frozenTimer = 0f;
-                frozenTargetTime = UnityEngine.Random.Range(180f, 300f); // 3~5분
-                if (frozenTimerText != null)
-                    frozenTimerText.gameObject.SetActive(true);
-                Debug.Log($"[BoxInteractable] Frozen 특수 로직 시작! frozenActive: {frozenActive}, frozenTimer: {frozenTimer}, frozenTargetTime: {frozenTargetTime}");
+                player.frozenTimer = 0f;
+                player.frozenTargetTime = UnityEngine.Random.Range(180f, 300f);
+                player.isFrozenEquipped = true;
+            }
+            else
+            {
+                player.isFrozenEquipped = false;
+            }
+            Debug.Log($"[BoxInteractable][Interact] PlayerInteraction에 박스 데이터 전달: type={boxType}, explosive={player.isExplosiveEquipped}, frozen={player.isFrozenEquipped}");
+            if (photonView != null)
+            {
+                photonView.RPC("DestroyBoxRPC", RpcTarget.All);
             }
         }
     }
@@ -142,6 +132,7 @@ public class BoxInteractable : Interactable
     private float explosiveBaseChance = 0.01f; // 시작 확률 1%
     private float explosiveChanceIncrease = 0.01f; // 초당 1% 증가
     private bool isEquipped = false;
+    private int equippedPlayerViewID = -1; // 박스를 든 플레이어의 ViewID
 
     private TMPro.TextMeshProUGUI explosionRateText;
 
@@ -150,6 +141,7 @@ public class BoxInteractable : Interactable
     private float frozenTargetTime = 0f;
     private bool frozenActive = false;
     private TMPro.TextMeshProUGUI frozenTimerText;
+    private int frozenPlayerViewID = -1; // Frozen 박스 플레이어 ViewID (동일하게 사용)
 
     private MissionStart missionStart;
     public BoxType boxType;
@@ -239,53 +231,14 @@ public class BoxInteractable : Interactable
     }
     private void Update()
     {
-        var playerObj = GameObject.FindWithTag("Player");
-        if (playerObj != null)
-        {
-            var playerInteraction = playerObj.GetComponent<PlayerInteraction>();
-            var playerPhotonView = playerObj.GetComponent<PhotonView>();
-            // Explosive 박스: tick마다 확률 증가, 폭발 처리
-            if (playerInteraction.equippedTarget != null && playerInteraction.equippedTarget.Contains("Explosive"))
-            {
-                explosiveTick += Time.deltaTime;
-                float chance = explosiveBaseChance + explosiveChanceIncrease * explosiveTick;
-                if (explosionRateText != null)
-                    explosionRateText.text = $"{Mathf.RoundToInt(chance * 100f)}%";
-                if (UnityEngine.Random.value < chance * Time.deltaTime)
-                {
-                    photonView.RPC("ExplodeBoxRPC", RpcTarget.All);
-                    isEquipped = false;
-                    explosiveTick = 0f;
-                    if (playerPhotonView != null)
-                        photonView.RPC("MissionFailRPC", RpcTarget.All, playerPhotonView.ViewID, "Explosive 박스 폭발");
-                }
-            }
-
-            // Frozen 박스: 타이머 갱신 및 시간 종료 시 파괴
-            if (playerInteraction.equippedTarget != null && playerInteraction.equippedTarget.Contains("Frozen"))
-            {
-                frozenTimer += Time.deltaTime;
-                if (frozenTimerText != null)
-                {
-                    int remain = Mathf.CeilToInt(frozenTargetTime - frozenTimer);
-                    frozenTimerText.text = $"{remain / 60:D2}:{remain % 60:D2}";
-                }
-                if (frozenTimer >= frozenTargetTime)
-                {
-                    if (playerPhotonView != null)
-                        photonView.RPC("MissionFailRPC", RpcTarget.All, playerPhotonView.ViewID, "Frozen 박스 시간 초과");
-                    frozenActive = false;
-                    if (frozenTimerText != null)
-                        frozenTimerText.gameObject.SetActive(false);
-                }
-            }
-        }
+        // 박스 특수 로직은 PlayerInteraction에서만 관리. 박스는 데이터만 넘김.
     }
 
     [PunRPC]
     public void MissionFailRPC(int playerViewID, string reason)
     {
         // 해당 ViewID의 플레이어만 실패 처리
+        Debug.Log($"[BoxInteractable][RPC] MissionFailRPC 호출됨, playerViewID={playerViewID}, reason={reason}");
         PhotonView targetView = PhotonView.Find(playerViewID);
         if (targetView != null)
         {
@@ -315,12 +268,13 @@ public class BoxInteractable : Interactable
     }
 
     [PunRPC]
-    public void ExplodeBoxRPC()
+    public void ExplodeBoxRPC(int playerViewID)
     {
-        // 현재 플레이어 찾기
-        var player = GameObject.FindWithTag("Player");
-        if (player != null)
+        PhotonView targetView = PhotonView.Find(playerViewID);
+        Debug.Log($"[ExplodeBox][RPC] ExplodeBoxRPC 호출됨, playerViewID={playerViewID}");
+        if (targetView != null)
         {
+            var player = targetView.gameObject;
             // 폭발 사운드 재생
             var explosionClip = Resources.Load<AudioClip>("Sounds/explosion");
             if (explosionClip != null)
