@@ -3181,11 +3181,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e814e5b1d393ebd489c46c80c8182c63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerInteraction
+  equippedBoxType: 0
+  isExplosiveEquipped: 0
+  explosiveTick: 0
+  explosiveBaseChance: 0.01
+  explosiveChanceIncrease: 0.01
+  isFrozenEquipped: 0
+  frozenTimer: 0
+  frozenTargetTime: 0
   checkRadius: 3
   interactableLayer:
     serializedVersion: 2
     m_Bits: 64
   currentTarget: {fileID: 0}
+  debugInteractable: 1
   equippedTarget: 
   equippedBoxUI: {fileID: 0}
 --- !u!114 &8837579995425452244

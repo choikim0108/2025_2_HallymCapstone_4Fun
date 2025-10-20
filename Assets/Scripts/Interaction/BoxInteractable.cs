@@ -18,13 +18,22 @@ public class BoxInteractable : Interactable
     // 추상 메서드 구현: 플레이어 정보를 받는 상호작용
     public override void Interact(PlayerInteraction player)
     {
+        if (player == null)
+        {
+            InteractUIHide();
+            return;
+        }
+
+        if (!player.CanEquipNewTarget(gameObject.name))
+            return;
+
         // Interact UI Prefab 인스턴스도 함께 삭제
         InteractUIHide();
 
         // 1) EquippedBoxUI 활성화 및 타입별 이미지/텍스트 변경
-        Debug.Log($"[BoxInteractable][Interact] boxType: {boxType}, player: {player?.name}, playerViewID: {player?.GetComponent<PhotonView>()?.ViewID}");
+    //Debug.Log($"[BoxInteractable][Interact] boxType: {boxType}, player: {player?.name}, playerViewID: {player?.GetComponent<PhotonView>()?.ViewID}");
         // 플레이어의 equippedBoxUI가 null이면 자동 할당
-        if (player != null && player.equippedBoxUI == null)
+        if (player.equippedBoxUI == null)
         {
             var canvas = GameObject.Find("Canvas");
             if (canvas != null)
@@ -32,19 +41,18 @@ public class BoxInteractable : Interactable
                 var ui = canvas.transform.Find("EquippedBoxUI");
                 if (ui != null)
                     player.equippedBoxUI = ui.gameObject;
-                Debug.Log($"[BoxInteractable][Interact] EquippedBoxUI 자동 할당: {player.equippedBoxUI != null}");
+                //Debug.Log($"[BoxInteractable][Interact] EquippedBoxUI 자동 할당: {player.equippedBoxUI != null}");
             }
         }
         // 박스 equip 직후 UI 컴포넌트 연결 재시도
-        if (player != null)
-            player.ConnectEquippedBoxUI();
+        player.ConnectEquippedBoxUI();
         // 이후 equippedBoxUI로 UI 제어
-        var uiObj = player != null ? player.equippedBoxUI : equippedBoxUI;
-        Debug.Log($"[BoxInteractable][Interact] EquippedBoxUI 찾기: {(uiObj != null ? "성공" : "실패")}, player: {player?.name}");
+        var uiObj = player.equippedBoxUI ?? equippedBoxUI;
+            //Debug.Log($"[BoxInteractable][Interact] EquippedBoxUI 찾기: {(uiObj != null ? "성공" : "실패")}, player: {player?.name}");
         if (uiObj != null)
         {
             uiObj.SetActive(true);
-            Debug.Log($"[BoxInteractable][Interact] EquippedBoxUI 활성화: {uiObj.activeSelf}");
+                        //Debug.Log($"[BoxInteractable][Interact] EquippedBoxUI 활성화: {uiObj.activeSelf}");
             // EquippedBoxPanel 아래에서 특수 텍스트 제어 (활성화만, 텍스트 값은 PlayerInteraction에서 갱신)
             var panel = uiObj.transform.Find("EquippedBoxPanel");
             if (panel != null)
@@ -95,42 +103,39 @@ public class BoxInteractable : Interactable
             Debug.LogError($"[BoxInteractable][Interact] EquippedBoxUI를 찾을 수 없습니다. player: {player?.name}");
 
         // 2) 플레이어가 박스를 "가지고 있음" 상태로 변경 (데이터 전달)
-        if (player != null)
+        player.equippedTarget = gameObject.name;
+        player.equippedBoxType = boxType;
+        if (boxType == BoxType.Explosive)
         {
-            player.equippedTarget = gameObject.name;
-            player.equippedBoxType = boxType;
-            if (boxType == BoxType.Explosive)
-            {
-                player.explosiveTick = 0f;
-                player.explosiveBaseChance = explosiveBaseChance;
-                player.explosiveChanceIncrease = explosiveChanceIncrease;
-                player.isExplosiveEquipped = true;
-            }
-            else
-            {
-                player.isExplosiveEquipped = false;
-            }
-            if (boxType == BoxType.Frozen)
-            {
-                player.frozenTimer = 0f;
-                player.frozenTargetTime = UnityEngine.Random.Range(180f, 300f);
-                player.isFrozenEquipped = true;
-            }
-            else
-            {
-                player.isFrozenEquipped = false;
-            }
-            Debug.Log($"[BoxInteractable][Interact] PlayerInteraction에 박스 데이터 전달: type={boxType}, explosive={player.isExplosiveEquipped}, frozen={player.isFrozenEquipped}");
-            if (photonView != null)
-            {
-                photonView.RPC("DestroyBoxRPC", RpcTarget.All);
-            }
+            player.explosiveTick = 0f;
+            player.explosiveBaseChance = explosiveBaseChance;
+            player.explosiveChanceIncrease = explosiveChanceIncrease;
+            player.isExplosiveEquipped = true;
+        }
+        else
+        {
+            player.isExplosiveEquipped = false;
+        }
+        if (boxType == BoxType.Frozen)
+        {
+            player.frozenTimer = 0f;
+            player.frozenTargetTime = UnityEngine.Random.Range(180f, 300f);
+            player.isFrozenEquipped = true;
+        }
+        else
+        {
+            player.isFrozenEquipped = false;
+        }
+        //Debug.Log($"[BoxInteractable][Interact] PlayerInteraction에 박스 데이터 전달: type={boxType}, explosive={player.isExplosiveEquipped}, frozen={player.isFrozenEquipped}");
+        if (photonView != null)
+        {
+            photonView.RPC("DestroyBoxRPC", RpcTarget.All);
         }
     }
     // Explosive 박스용: 들고 있는 시간, 폭발 확률
     private float explosiveTick = 0f;
     private float explosiveBaseChance = 0.01f; // 시작 확률 1%
-    private float explosiveChanceIncrease = 0.01f; // 초당 1% 증가
+    private float explosiveChanceIncrease = 0.0f; // 0.01f, 테스트용으로 0으로 수정해둠. 초당 1% 증가
     private bool isEquipped = false;
     private int equippedPlayerViewID = -1; // 박스를 든 플레이어의 ViewID
 
@@ -143,7 +148,7 @@ public class BoxInteractable : Interactable
     private TMPro.TextMeshProUGUI frozenTimerText;
     private int frozenPlayerViewID = -1; // Frozen 박스 플레이어 ViewID (동일하게 사용)
 
-    private MissionStart missionStart;
+    private MissionManager missionManager;
     public BoxType boxType;
     private PhotonView photonView;
 
@@ -165,10 +170,10 @@ public class BoxInteractable : Interactable
             }
         }
 
-        // MissionStart 연결
-        var msObj = GameObject.FindFirstObjectByType<MissionStart>();
+        // MissionManager 연결
+        var msObj = MissionManager.Instance ?? GameObject.FindFirstObjectByType<MissionManager>();
         if (msObj != null)
-            missionStart = msObj;
+            missionManager = msObj;
 
         // Frozen 타이머 텍스트 연결
         if (equippedBoxUI != null)
@@ -256,8 +261,8 @@ public class BoxInteractable : Interactable
                 }
             }
         }
-        if (missionStart != null)
-            missionStart.MissionFail(reason);
+        if (missionManager != null)
+            missionManager.MissionFail(reason);
         // 박스 오브젝트 삭제는 DestroyBoxRPC에서만 수행
     }
 

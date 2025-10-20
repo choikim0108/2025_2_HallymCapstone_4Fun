@@ -49,6 +49,12 @@ MonoBehaviour:
   - SetBoxActiveRPC
   - SetCurrentInteractableRPC
   - MissionFailRPC
+  - AddPassengerRPC
+  - BoardRequestRPC
+  - EjectPlayerRPC
+  - GetOffRequestRPC
+  - ResetBusRPC
+  - SetDriverRPC
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
