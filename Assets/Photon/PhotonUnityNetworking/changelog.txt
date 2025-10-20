@@ -3,15 +3,6 @@ PUN 2 - Changelog
 www.photonengine.com  -  Join the community Discord Server: https://dashboard.photonengine.com/account/profile
 
 
-v2.51 (31. July 2025)
-Updated: Unity 6 Editor support (using https to ping regions while using WebGL as build target).
-Updated: The experimental Threaded WebAssembly feature of Unity 6 can now be used.
-Updated: Library, Realtime and Chat API to 4.1.8.16. More details in the change logs.
-Changed: The minimum required Editor version is 2021.3.45 (due to using certain Emscripten features).
-
-v2.50 (11. March 2025)
-Updated: Library, Realtime and Chat API to 4.1.8.14. More details in the change logs.
-
 v2.49 (09. January 2025)
 Fixed: Setting the LocalPlayer.UserId in Realtime.
 Note: No update of the .chm file (API reference did not change).

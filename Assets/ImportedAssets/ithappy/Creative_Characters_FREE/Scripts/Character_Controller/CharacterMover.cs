@@ -7,8 +7,11 @@ namespace Controller
     [RequireComponent(typeof(CharacterController))]
     [RequireComponent(typeof(Animator))]
     [DisallowMultipleComponent]
+    
     public class CharacterMover : MonoBehaviourPun
     {
+
+
         [Header("Movement")]
         [SerializeField]
         private float m_WalkSpeed = 1f;
@@ -66,7 +69,7 @@ namespace Controller
             m_Animator = GetComponent<Animator>();
 
             m_Movement = new MovementHandler(m_Controller, m_Transform, m_WalkSpeed, m_RunSpeed, m_RotateSpeed, m_JumpHeight, m_Space);
-            m_Animation = new AnimationHandler(m_Animator, m_HorizontalID,  m_VerticalID, m_StateID, m_JumpID);
+            m_Animation = new AnimationHandler(m_Animator, m_HorizontalID, m_VerticalID, m_StateID, m_JumpID);
         }
 
         private void Update()
@@ -104,7 +107,7 @@ namespace Controller
 
         private void OnControllerColliderHit(ControllerColliderHit hit)
         {
-            if(hit.normal.y > m_Controller.stepOffset)
+            if (hit.normal.y > m_Controller.stepOffset)
             {
                 m_Movement.SetSurface(hit.normal);
             }
@@ -258,7 +261,7 @@ namespace Controller
 
             private void GenAnimationAxis(in Vector3 movement, out Vector2 animAxis)
             {
-                if(m_Space == Space.Self)
+                if (m_Space == Space.Self)
                 {
                     animAxis = new Vector2(Vector3.Dot(movement, m_Transform.right), Vector3.Dot(movement, m_Transform.forward));
                 }
@@ -288,7 +291,7 @@ namespace Controller
 
             private void UpdateRotation(float deltaTime)
             {
-                if(!m_IsRotating)
+                if (!m_IsRotating)
                 {
                     return;
                 }

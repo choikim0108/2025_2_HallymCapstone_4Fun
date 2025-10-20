@@ -1,11 +1,11 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 using UnityEngine.UI;
-using Firebase.Auth; // Firebase ÀÎÁõ ³×ÀÓ½ºÆäÀÌ½º
-using System.Threading.Tasks; // Task »ç¿ëÀ» À§ÇÔ
+using Firebase.Auth; // Firebase ì¸ì¦ ë„¤ì„ìŠ¤í˜ì´ìŠ¤
+using System.Threading.Tasks; // Task ì‚¬ìš©ì„ ìœ„í•¨
 
 public class FirebaseManager : MonoBehaviour
 {
-    // Firebase ÀÎÁõ ±â´ÉÀÇ ÇÙ½É °´Ã¼
+    // Firebase ì¸ì¦ ê¸°ëŠ¥ì˜ í•µì‹¬ ê°ì²´
     private FirebaseAuth auth;
 
     [Header("UI Elements")]
@@ -13,79 +13,79 @@ public class FirebaseManager : MonoBehaviour
     public InputField passwordInput;
     public Button registerButton;
     public Button loginButton;
-    public Text statusText; // »ç¿ëÀÚ¿¡°Ô »óÅÂ¸¦ ¾Ë·ÁÁÙ ÅØ½ºÆ® (¿¹: "·Î±×ÀÎ Áß...", "È¸¿ø°¡ÀÔ ¼º°ø!")
+    public Text statusText; // ì‚¬ìš©ìì—ê²Œ ìƒíƒœë¥¼ ì•Œë ¤ì¤„ í…ìŠ¤íŠ¸ (ì˜ˆ: "ë¡œê·¸ì¸ ì¤‘...", "íšŒì›ê°€ì… ì„±ê³µ!")
 
     void Start()
     {
-        // Firebase AuthÀÇ ±âº» ÀÎ½ºÅÏ½º¸¦ °¡Á®¿Í ÃÊ±âÈ­
+        // Firebase Authì˜ ê¸°ë³¸ ì¸ìŠ¤í„´ìŠ¤ë¥¼ ê°€ì ¸ì™€ ì´ˆê¸°í™”
         auth = FirebaseAuth.DefaultInstance;
 
-        // °¢ ¹öÆ°¿¡ Å¬¸¯ÇßÀ» ¶§ ½ÇÇàµÉ ÇÔ¼ö¸¦ ¿¬°á
+        // ê° ë²„íŠ¼ì— í´ë¦­í–ˆì„ ë•Œ ì‹¤í–‰ë  í•¨ìˆ˜ë¥¼ ì—°ê²°
         registerButton.onClick.AddListener(Register);
         loginButton.onClick.AddListener(Login);
     }
 
-    // È¸¿ø°¡ÀÔ ÇÔ¼ö
+    // íšŒì›ê°€ì… í•¨ìˆ˜
     private void Register()
     {
-        // »ç¿ëÀÚ°¡ ÀÔ·ÂÇÑ ÀÌ¸ŞÀÏ°ú ºñ¹Ğ¹øÈ£¸¦ °¡Á®¿È
+        // ì‚¬ìš©ìê°€ ì…ë ¥í•œ ì´ë©”ì¼ê³¼ ë¹„ë°€ë²ˆí˜¸ë¥¼ ê°€ì ¸ì˜´
         string email = emailInput.text;
         string password = passwordInput.text;
 
-        statusText.text = "È¸¿ø°¡ÀÔ Áß...";
+        statusText.text = "íšŒì›ê°€ì… ì¤‘...";
 
-        // Firebase Auth¸¦ ÀÌ¿ëÇØ ÀÌ¸ŞÀÏ/ºñ¹Ğ¹øÈ£·Î ½Å±Ô À¯Àú »ı¼º
+        // Firebase Authë¥¼ ì´ìš©í•´ ì´ë©”ì¼/ë¹„ë°€ë²ˆí˜¸ë¡œ ì‹ ê·œ ìœ ì € ìƒì„±
         auth.CreateUserWithEmailAndPasswordAsync(email, password).ContinueWith(task =>
         {
-            // task: ºñµ¿±â ÀÛ¾÷ÀÇ °á°ú¸¦ ´ã°í ÀÖ´Â °´Ã¼
+            // task: ë¹„ë™ê¸° ì‘ì—…ì˜ ê²°ê³¼ë¥¼ ë‹´ê³  ìˆëŠ” ê°ì²´
             if (task.IsCanceled || task.IsFaulted)
             {
-                Debug.LogError("È¸¿ø°¡ÀÔ ½ÇÆĞ: " + task.Exception);
-                statusText.text = "È¸¿ø°¡ÀÔ¿¡ ½ÇÆĞÇß½À´Ï´Ù.";
+                Debug.LogError("íšŒì›ê°€ì… ì‹¤íŒ¨: " + task.Exception);
+                statusText.text = "íšŒì›ê°€ì…ì— ì‹¤íŒ¨í–ˆìŠµë‹ˆë‹¤.";
                 return;
             }
 
-            // È¸¿ø°¡ÀÔ ¼º°ø
+            // íšŒì›ê°€ì… ì„±ê³µ
             FirebaseUser newUser = task.Result.User;
-            Debug.LogFormat("È¸¿ø°¡ÀÔ ¼º°ø: {0} ({1})", newUser.DisplayName, newUser.UserId);
-            statusText.text = "È¸¿ø°¡ÀÔ ¼º°ø! ÀÌÁ¦ ·Î±×ÀÎ ÇØÁÖ¼¼¿ä.";
+            Debug.LogFormat("íšŒì›ê°€ì… ì„±ê³µ: {0} ({1})", newUser.DisplayName, newUser.UserId);
+            statusText.text = "íšŒì›ê°€ì… ì„±ê³µ! ì´ì œ ë¡œê·¸ì¸ í•´ì£¼ì„¸ìš”.";
 
-        }, TaskScheduler.FromCurrentSynchronizationContext()); // UnityÀÇ ¸ŞÀÎ ½º·¹µå¿¡¼­ UI¸¦ ¾÷µ¥ÀÌÆ®ÇÏ±â À§ÇÔ
+        }, TaskScheduler.FromCurrentSynchronizationContext()); // Unityì˜ ë©”ì¸ ìŠ¤ë ˆë“œì—ì„œ UIë¥¼ ì—…ë°ì´íŠ¸í•˜ê¸° ìœ„í•¨
     }
 
-    // ·Î±×ÀÎ ÇÔ¼ö
+    // ë¡œê·¸ì¸ í•¨ìˆ˜
     private void Login()
     {
-        // »ç¿ëÀÚ°¡ ÀÔ·ÂÇÑ ÀÌ¸ŞÀÏ°ú ºñ¹Ğ¹øÈ£¸¦ °¡Á®¿È
+        // ì‚¬ìš©ìê°€ ì…ë ¥í•œ ì´ë©”ì¼ê³¼ ë¹„ë°€ë²ˆí˜¸ë¥¼ ê°€ì ¸ì˜´
         string email = emailInput.text;
         string password = passwordInput.text;
 
-        statusText.text = "·Î±×ÀÎ Áß...";
+        statusText.text = "ë¡œê·¸ì¸ ì¤‘...";
 
-        // Firebase Auth¸¦ ÀÌ¿ëÇØ ÀÌ¸ŞÀÏ/ºñ¹Ğ¹øÈ£·Î ·Î±×ÀÎ ½Ãµµ
+        // Firebase Authë¥¼ ì´ìš©í•´ ì´ë©”ì¼/ë¹„ë°€ë²ˆí˜¸ë¡œ ë¡œê·¸ì¸ ì‹œë„
         auth.SignInWithEmailAndPasswordAsync(email, password).ContinueWith(task =>
         {
             if (task.IsCanceled || task.IsFaulted)
             {
-                Debug.LogError("·Î±×ÀÎ ½ÇÆĞ: " + task.Exception);
-                statusText.text = "·Î±×ÀÎ¿¡ ½ÇÆĞÇß½À´Ï´Ù.";
+                Debug.LogError("ë¡œê·¸ì¸ ì‹¤íŒ¨: " + task.Exception);
+                statusText.text = "ë¡œê·¸ì¸ì— ì‹¤íŒ¨í–ˆìŠµë‹ˆë‹¤.";
                 return;
             }
 
-            // ·Î±×ÀÎ ¼º°ø!
+            // ë¡œê·¸ì¸ ì„±ê³µ!
             FirebaseUser user = task.Result.User;
-            Debug.LogFormat("·Î±×ÀÎ ¼º°ø: {0} ({1})", user.DisplayName, user.UserId);
-            statusText.text = "·Î±×ÀÎ ¼º°ø! ·Îºñ¿¡ ¿¬°áÇÕ´Ï´Ù.";
+            Debug.LogFormat("ë¡œê·¸ì¸ ì„±ê³µ: {0} ({1})", user.DisplayName, user.UserId);
+            statusText.text = "ë¡œê·¸ì¸ ì„±ê³µ! ë¡œë¹„ì— ì—°ê²°í•©ë‹ˆë‹¤.";
             
-            // ¡å¡å¡å¡å¡å ¿©±â°¡ °¡Àå Áß¿äÇÑ ¿¬µ¿ ºÎºĞ ¡å¡å¡å¡å¡å
-            // LobbyManagerÀÇ ÀÎ½ºÅÏ½º¸¦ Ã£¾Æ ConnectToPhoton ¸Ş¼­µå¸¦ È£ÃâÇÏ°í, À¯ÀúÀÇ °íÀ¯ ID¸¦ ³Ñ°ÜÁÜ
+            // â–¼â–¼â–¼â–¼â–¼ ì—¬ê¸°ê°€ ê°€ì¥ ì¤‘ìš”í•œ ì—°ë™ ë¶€ë¶„ â–¼â–¼â–¼â–¼â–¼
+            // LobbyManagerì˜ ì¸ìŠ¤í„´ìŠ¤ë¥¼ ì°¾ì•„ ConnectToPhoton ë©”ì„œë“œë¥¼ í˜¸ì¶œí•˜ê³ , ìœ ì €ì˜ ê³ ìœ  IDë¥¼ ë„˜ê²¨ì¤Œ
             LobbyManager.Instance.ConnectToPhoton(user.UserId);
             
-            // ·Î±×ÀÎ UI¸¦ ºñÈ°¼ºÈ­ (¼±ÅÃ »çÇ×)
-            // ¿¹¸¦ µé¾î ·Î±×ÀÎ ÆĞ³Î ÀüÃ¼¸¦ ºñÈ°¼ºÈ­ ÇÒ ¼ö ÀÖ½À´Ï´Ù.
+            // ë¡œê·¸ì¸ UIë¥¼ ë¹„í™œì„±í™” (ì„ íƒ ì‚¬í•­)
+            // ì˜ˆë¥¼ ë“¤ì–´ ë¡œê·¸ì¸ íŒ¨ë„ ì „ì²´ë¥¼ ë¹„í™œì„±í™” í•  ìˆ˜ ìˆìŠµë‹ˆë‹¤.
             // this.gameObject.SetActive(false);
-            // ¡ã¡ã¡ã¡ã¡ã¡ã¡ã¡ã¡ã¡ã¡ã¡ã¡ã¡ã¡ã¡ã¡ã¡ã¡ã¡ã¡ã¡ã¡ã¡ã¡ã¡ã¡ã¡ã¡ã¡ã¡ã¡ã¡ã
+            // â–²â–²â–²â–²â–²â–²â–²â–²â–²â–²â–²â–²â–²â–²â–²â–²â–²â–²â–²â–²â–²â–²â–²â–²â–²â–²â–²â–²â–²â–²â–²â–²â–²
 
-        }, TaskScheduler.FromCurrentSynchronizationContext()); // UnityÀÇ ¸ŞÀÎ ½º·¹µå¿¡¼­ UI¸¦ ¾÷µ¥ÀÌÆ®ÇÏ±â À§ÇÔ
+        }, TaskScheduler.FromCurrentSynchronizationContext()); // Unityì˜ ë©”ì¸ ìŠ¤ë ˆë“œì—ì„œ UIë¥¼ ì—…ë°ì´íŠ¸í•˜ê¸° ìœ„í•¨
     }
 }

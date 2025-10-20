@@ -7,6 +7,12 @@ firebase-debug.*.log
 /Firebase/
 /Assets/StreamingAssets/google-services.json
 /Assets/StreamingAssets/GoogleService-Info.plist
+
+# 대용량 라이브러리 파일
+*.a
+*.so
+*.bundle
+
 # This .gitignore file should be placed at the root of your Unity project directory
 #
 # Get latest from https://github.com/github/gitignore/blob/main/Unity.gitignore

@@ -11,12 +11,12 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9f3758f8f58fdef43803eb9be1df0608, type: 3}
   m_Name: PhotonServerSettings
-  m_EditorClassIdentifier: PhotonUnityNetworking::Photon.Pun.ServerSettings
+  m_EditorClassIdentifier: 
   AppSettings:
-    AppIdRealtime: 8085cf3b-0490-4148-bec2-dd7d1393abd4
+    AppIdRealtime: 0f983614-2902-40c5-8cf8-0408b76b332f
     AppIdFusion: 
-    AppIdChat: 
-    AppIdVoice: 
+    AppIdChat: c911a4bf-922b-450f-9c41-d5baf63f39a9
+    AppIdVoice: ba4a5ff1-403f-4b35-b056-2f5f1b8dda55
     AppVersion: 
     UseNameServer: 1
     FixedRegion: 
@@ -28,17 +28,33 @@ MonoBehaviour:
     AuthMode: 0
     EnableLobbyStatistics: 0
     NetworkLogging: 1
-  DevRegion: 
+  DevRegion: kr
   PunLogging: 0
   EnableSupportLogger: 0
   RunInBackground: 1
   StartInOfflineMode: 0
   RpcList:
+  - CantHearYou
+  - ChangeColour
   - ClickRpc
   - DestroyRpc
+  - HeresWhy
   - DestroySpaceship
   - Fire
   - RespawnSpaceship
+  - RpcStartRecording
+  - RpcStopRecordingAndSave
+  - DestroyBoxRPC
+  - ExplodeBoxRPC
+  - SetBoxActiveRPC
+  - SetCurrentInteractableRPC
+  - MissionFailRPC
+  - AddPassengerRPC
+  - BoardRequestRPC
+  - EjectPlayerRPC
+  - GetOffRequestRPC
+  - ResetBusRPC
+  - SetDriverRPC
   DisableAutoOpenWizard: 1
-  ShowSettings: 0
-  DevRegionSetOnce: 0
+  ShowSettings: 1
+  DevRegionSetOnce: 1
