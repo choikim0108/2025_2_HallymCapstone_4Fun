@@ -58,6 +58,6 @@
 
 ## 5. 관련 링크 (Links)
 
-* **Notion (WIP)**: [Project 4Fun Wiki](https://www.notion.so/4Fun-26708879c77f80a89a66f611c2d174f6)
+* **Notion (WIP)**: [Project 4Fun](https://www.notion.so/4Fun-26708879c77f80a89a66f611c2d174f6)
 * **GitHub**: [choikim0108/2025_2_HallymCapstone_4Fun](https://github.com/choikim0108/2025_2_HallymCapstone_4Fun/)
 * **Version Control (DevOps)**: [Unity DevOps Dashboard](https://cloud.unity.com/home/organizations/14569676474665/projects/08340abb-5539-4b3a-a144-18a85afa6a18/cloud-build/config)
