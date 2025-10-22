@@ -28,9 +28,9 @@
 
 | 구분 | 기술 | 비고 |
 | :--- | :--- | :--- |
-| **Game Engine** | `Unity (C#)` | 2022.3.x LTS |
-| **Networking** | `Photon (PUN 2)` | 실시간 멀티플레이 동기화 |
-| **Backend & DB** | `Firebase` | Authentication, Realtime Database |
+| **Game Engine** | `Unity (C#)` | Unity 6.2 (6000.2.8f1) |
+| **Networking** | `Photon (PUN 2)` | Unity 기반 실시간 멀티플레이 동기화 |
+| **Backend & DB** | `Firebase` | Auth, Database |
 | **AI (Tutor)** | `LLM API` | (Gemini / GPT 등) |
 | **AI (Voice)** | `Python` | 음성 분석 및 리포트 생성 (e.g., Librosa, STT) |
 | **Version Control** | `Unity DevOps (Plastic SCM)` / `Git` | |
