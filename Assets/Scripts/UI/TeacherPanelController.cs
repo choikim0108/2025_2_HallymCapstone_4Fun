@@ -17,7 +17,7 @@ public class TeacherPanelController : MonoBehaviourPunCallbacks
             if (role.ToString() == "Teacher")
             {
                 teacherPanel.SetActive(false);
-                teacherPanelOpenButton.SetActive(true);
+                teacherPanelOpenButton.SetActive(false);
                 teacherPanelCloseButton.SetActive(false);
             }
             else

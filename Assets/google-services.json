@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "126679777266",
+    "firebase_url": "https://fun-ec4c1-default-rtdb.asia-southeast1.firebasedatabase.app",
     "project_id": "fun-ec4c1",
     "storage_bucket": "fun-ec4c1.firebasestorage.app"
   },
@@ -10,6 +11,25 @@
         "mobilesdk_app_id": "1:126679777266:android:e62d96ad9204f65b0e356b",
         "android_client_info": {
           "package_name": "com.UnityTechnologies.com.unity.template.urpblank"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD2ASqxBKTWpExMtiJLDw6RTw0aohhC7Zo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:126679777266:android:db8c3fcc9beb76070e356b",
+        "android_client_info": {
+          "package_name": "com.hallymcapstone.forfun"
         }
       },
       "oauth_client": [],

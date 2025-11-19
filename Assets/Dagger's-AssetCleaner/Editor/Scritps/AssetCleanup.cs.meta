@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: bebc13cbce153a24bb5dda5d5a42f461
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 327245
+  packageName: Dagger's Asset Cleaner Tool
+  packageVersion: 1.0.0
+  assetPath: Assets/Dagger's-AssetCleaner/Scritps/AssetCleanup.cs
+  uploadId: 774701
