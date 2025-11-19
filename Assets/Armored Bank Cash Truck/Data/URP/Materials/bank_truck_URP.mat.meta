@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: f1c04286c85192b43a7c558225a61f3d
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 250353
+  packageName: Armored Bank Cash Truck (Mobile)
+  packageVersion: 1.0
+  assetPath: Assets/Armored Bank Cash Truck/Data/URP/Materials/bank_truck_URP.mat
+  uploadId: 571993

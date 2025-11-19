@@ -11,7 +11,7 @@ public class SetupPanelController : MonoBehaviour
     {
         // 시작 시 SetupPanel은 비활성화, OpenButton은 활성화, CloseButton은 비활성화
         setupPanel.SetActive(false);
-        setupPanelOpenButton.gameObject.SetActive(true);
+        setupPanelOpenButton.gameObject.SetActive(false);
         setupPanelCloseButton.gameObject.SetActive(false);
 
         setupPanelOpenButton.onClick.AddListener(OpenPanel);

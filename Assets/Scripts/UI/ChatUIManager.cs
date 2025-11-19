@@ -16,7 +16,7 @@ namespace UI
             if (tutorPanelUI != null)
             {
                 Debug.Log("[ChatUIManager] tutorPanelUI 존재, UI 초기화 진행");
-                tutorPanelUI.openButton.gameObject.SetActive(true);
+                //tutorPanelUI.openButton.gameObject.SetActive(true);
                 tutorPanelUI.chatPanelRoot.SetActive(false);
                 tutorPanelUI.OnSendMessage += OnSendMessageFromUI;
             }

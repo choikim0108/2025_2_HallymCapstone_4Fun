@@ -2,6 +2,7 @@ using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 // MonoBehaviourPunCallbacks를 상속받아 포톤 관련 이벤트 콜백을 쉽게 사용
 public class LobbyManager : MonoBehaviourPunCallbacks
@@ -17,14 +18,15 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     public GameObject roomPanel;
 
     [Header("Lobby Panel")]
-    public InputField roomNameInput;
+    public TMP_InputField roomNameInput;   // ★ 수정: InputField → TMP_InputField
     public Button createRoomButton;
     public Button joinRoomButton;
     public Button customizeButton;
+    public Text lobbyStatusText;
 
     [Header("Room Panel")]
-    public Text roomNameText;
-    public Text playerListText;
+    public TextMeshProUGUI roomNameText;   // ★ 수정: Text → TextMeshProUGUI
+    public TextMeshProUGUI playerListText; // ★ 수정: Text → TextMeshProUGUI
     public Button startGameButton;
 
     void Awake()
@@ -60,8 +62,8 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         InitializePanels();
     }
     
-    // 2. Firebase ID로 포톤에 접속하는 public 메서드 (핵심!)
-    public void ConnectToPhoton(string userId)
+    // 닉네임을 매개변수로 받도록 수정
+    public void ConnectToPhoton(string userId, string nickname)
     {
         if (PhotonNetwork.IsConnected)
         {
@@ -71,13 +73,11 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
         Debug.Log($"Firebase ID({userId})로 포톤 서버에 접속을 시도합니다.");
         
-        // 가장 중요한 부분: Photon의 인증값으로 Firebase UserId를 사용
         PhotonNetwork.AuthValues = new AuthenticationValues(userId);
-        PhotonNetwork.NickName = "Player_" + userId.Substring(0, 5); // 닉네임은 임시로 생성
+        PhotonNetwork.NickName = nickname; // 전달받은 닉네임으로 Photon NickName 설정
         PhotonNetwork.GameVersion = gameVersion;
-        PhotonNetwork.ConnectUsingSettings(); // 포톤 서버 접속 시작
+        PhotonNetwork.ConnectUsingSettings();
     }
-
     // 기존의 ConnectToServer 메서드는 이제 사용하지 않으므로 삭제하거나 주석 처리합니다.
     /*
     private void ConnectToServer()
@@ -92,10 +92,14 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         if (string.IsNullOrEmpty(roomNameInput.text))
         {
             Debug.Log("방 이름을 입력하세요.");
+            if (lobbyStatusText != null) lobbyStatusText.text = "방 이름을 입력하세요."; // [추가] 방 이름 미입력 시 UI 메시지 표시
             return;
         }
+
+        if (lobbyStatusText != null) lobbyStatusText.text = "방 생성 중..."; // [추가] 요구조건 1: 방 생성 시도 시 UI 메시지 표시
+
         RoomOptions roomOptions = new RoomOptions();
-        roomOptions.MaxPlayers = 4; // 최대 4명까지
+        roomOptions.MaxPlayers = 4; //최대 참가인원 4명
         PhotonNetwork.CreateRoom(roomNameInput.text, roomOptions);
     }
     
@@ -105,10 +109,14 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         if (string.IsNullOrEmpty(roomNameInput.text))
         {
             Debug.Log("방 이름을 입력하세요.");
+            if (lobbyStatusText != null) lobbyStatusText.text = "방 이름을 입력하세요."; // [추가] 방 이름 미입력 시 UI 메시지 표시
             return;
         }
+
+        if (lobbyStatusText != null) lobbyStatusText.text = "방 참가 중..."; // [추가] 요구조건 1: 방 참가 시도 시 UI 메시지 표시
+
         PhotonNetwork.JoinRoom(roomNameInput.text);
-    }
+    }   
     
     #region Photon Callback Methods
     
@@ -127,6 +135,23 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         Debug.Log("방 생성 성공!");
     }
 
+    // [추가] 요구조건 2: 방 생성 실패 시 콜백
+    public override void OnCreateRoomFailed(short returnCode, string message)
+    {
+        Debug.Log($"방 생성 실패: {message} (코드: {returnCode})");
+        if (lobbyStatusText != null)
+        {
+            if (returnCode == 32766) // ErrorCode.GameIdAlreadyExists
+            {
+                lobbyStatusText.text = "이미 존재하는 방 이름입니다.";
+            }
+            else
+            {
+                lobbyStatusText.text = $"방 생성 실패: {message}";
+            }
+        }
+    }
+
     // 방에 참여했을 때 호출되는 콜백
     public override void OnJoinedRoom()
     {
@@ -139,12 +164,33 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             ExitGames.Client.Photon.Hashtable props = new ExitGames.Client.Photon.Hashtable();
             props["Role"] = "Teacher";
             PhotonNetwork.LocalPlayer.SetCustomProperties(props);
-    }
+        }
         else
         {
             ExitGames.Client.Photon.Hashtable props = new ExitGames.Client.Photon.Hashtable();
             props["Role"] = "Student";
             PhotonNetwork.LocalPlayer.SetCustomProperties(props);
+        }
+    }
+
+    // [추가] 요구조건 2: 방 참가 실패 시 콜백
+    public override void OnJoinRoomFailed(short returnCode, string message)
+    {
+        Debug.Log($"방 참가 실패: {message} (코드: {returnCode})");
+        if (lobbyStatusText != null)
+        {
+            if (returnCode == 32758) // ErrorCode.GameDoesNotExist
+            {
+                lobbyStatusText.text = "존재하지 않는 방입니다.";
+            }
+            else if (returnCode == 32765) // ErrorCode.GameFull
+            {
+                lobbyStatusText.text = "방이 가득 찼습니다.";
+            }
+            else
+            {
+                lobbyStatusText.text = $"참가 실패: {message}";
+            }
         }
     }
     /*  10.01.12:43 146~151 line 수정
@@ -251,6 +297,8 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         if (connectPanel != null) connectPanel.SetActive(false);
         if (lobbyPanel != null) lobbyPanel.SetActive(true);
         if (roomPanel != null) roomPanel.SetActive(false);
+
+        if (lobbyStatusText != null) lobbyStatusText.text = ""; // [추가] 로비 패널로 돌아올 때 상태 메시지 초기화
 
         if (PhotonNetwork.IsConnectedAndReady && !PhotonNetwork.InLobby)
         {

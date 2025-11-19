@@ -2,15 +2,17 @@
 using UnityEngine.UI;
 using Firebase.Auth;
 using Firebase;
+using TMPro;
 
 public class FirebaseAuthManager : MonoBehaviour
 {
     [Header("UI Elements")]
-    public InputField emailInput;
-    public InputField passwordInput;
+    public TMP_InputField emailInput;
+    public TMP_InputField passwordInput;
+    public TMP_InputField nicknameInput;   // ★ 추가: 닉네임 입력칸
     public Button registerButton;
     public Button loginButton;
-    public Text statusText;
+    public TextMeshProUGUI statusText;     // ★ Text → TextMeshProUGUI 로 변경
 
     private bool isProcessing = false;
 
@@ -44,6 +46,27 @@ public class FirebaseAuthManager : MonoBehaviour
         loginButton.onClick.AddListener(OnLoginClicked);
     }
 
+    //TAB 키 입력을 감지하기 위해 Update 추가
+    void Update()
+    {
+        // TAB 키가 눌렸는지 확인
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            // 현재 포커스된 InputField에 따라 다음 InputField로 포커스 이동
+            if (emailInput.isFocused)
+            {
+                passwordInput.ActivateInputField(); // 이메일 -> 비밀번호
+            }
+            else if (passwordInput.isFocused)
+            {
+                nicknameInput.ActivateInputField(); // 비밀번호 -> 닉네임
+            }
+            else if (nicknameInput.isFocused)
+            {
+                emailInput.ActivateInputField(); // 닉네임 -> 이메일
+            }
+        }
+    }
     private void OnDestroy()
     {
         if (FirebaseManager.Instance != null)
@@ -78,6 +101,7 @@ public class FirebaseAuthManager : MonoBehaviour
     {
         emailInput.interactable = interactable;
         passwordInput.interactable = interactable;
+        nicknameInput.interactable = interactable;
         registerButton.interactable = interactable;
         loginButton.interactable = interactable;
     }
@@ -101,9 +125,9 @@ public class FirebaseAuthManager : MonoBehaviour
             return false;
         }
 
-    manager.CacheUser(currentUser);
+        manager.CacheUser(currentUser);
 
-    string userLabel = string.IsNullOrWhiteSpace(currentUser.Email) ? manager.UserId : currentUser.Email;
+        string userLabel = string.IsNullOrWhiteSpace(currentUser.Email) ? manager.UserId : currentUser.Email;
         statusText.text = $"이미 로그인된 상태입니다: {userLabel}";
         SetUIInteractable(false);
 
@@ -114,7 +138,8 @@ public class FirebaseAuthManager : MonoBehaviour
 
         if (LobbyManager.Instance != null)
         {
-            LobbyManager.Instance.ConnectToPhoton(manager.UserId);
+            string cachedNickname = "Player_" + manager.UserId.Substring(0, 5);
+            LobbyManager.Instance.ConnectToPhoton(manager.UserId, cachedNickname);        
         }
         else
         {
@@ -126,13 +151,16 @@ public class FirebaseAuthManager : MonoBehaviour
         return true;
     }
 
-    // [수정] 5. OnRegisterClicked에서 초기화 확인 로직 제거 (이미 검증됨)
+    //OnRegisterClicked에서 초기화 확인 로직 제거 (이미 검증됨)
     private async void OnRegisterClicked()
     {
         if (isProcessing) return;
         
-        // (이전 확인 로직 제거)
-        // if (FirebaseManager.Instance == null || !FirebaseManager.Instance.IsFirebaseInitialized) ...
+        if (string.IsNullOrEmpty(nicknameInput.text))
+        {
+            statusText.text = "닉네임을 입력하세요."; // 요구조건 2
+            return;
+        }
 
         isProcessing = true;
         statusText.text = "회원가입 중...";
@@ -141,8 +169,9 @@ public class FirebaseAuthManager : MonoBehaviour
         {
             string email = emailInput.text;
             string password = passwordInput.text;
+            string nickname = nicknameInput.text;
             
-            AuthResult result = await FirebaseManager.Instance.RegisterAsync(email, password);
+            AuthResult result = await FirebaseManager.Instance.RegisterAsync(email, password, nickname);
             statusText.text = "회원가입 성공! 이제 로그인 해주세요.";
         }
         catch (System.Exception e)
@@ -155,13 +184,19 @@ public class FirebaseAuthManager : MonoBehaviour
         }
     }
 
-    // [수정] 6. OnLoginClicked에서 초기화 확인 로직 제거 (이미 검증됨)
+    // OnLoginClicked에서 초기화 확인 로직 제거 (이미 검증됨)
     private async void OnLoginClicked()
     {
         if (isProcessing) return;
         
         // (이전 확인 로직 제거)
-
+        // 요구조건 1: 닉네임이 비어있는지 확인
+        if (string.IsNullOrEmpty(nicknameInput.text))
+        {
+            // 요구조건 2: 닉네임이 비어있을 경우 상태 메시지 변경
+            statusText.text = "닉네임을 입력하세요.";
+            return;
+        }
         isProcessing = true;
         statusText.text = "로그인 중...";
 
@@ -169,6 +204,7 @@ public class FirebaseAuthManager : MonoBehaviour
         {
             string email = emailInput.text;
             string password = passwordInput.text;
+            string nickname = nicknameInput.text; // 닉네임 값 가져오기
             
             AuthResult result = await FirebaseManager.Instance.LoginAsync(email, password);
             statusText.text = "로그인 성공! 로비에 연결합니다.";
@@ -178,7 +214,7 @@ public class FirebaseAuthManager : MonoBehaviour
                 await CurrencyManager.Instance.EnsureInitialDataLoadedAsync(true);
             }
             
-            LobbyManager.Instance.ConnectToPhoton(FirebaseManager.Instance.UserId);
+            LobbyManager.Instance.ConnectToPhoton(FirebaseManager.Instance.UserId, nickname);        
         }
         catch (System.Exception e)
         {

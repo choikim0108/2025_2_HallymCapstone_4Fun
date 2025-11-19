@@ -85,28 +85,25 @@ public class FirebaseManager : MonoBehaviour
         }, TaskScheduler.FromCurrentSynchronizationContext()); // 핵심
     }
 
-    public async Task<AuthResult> RegisterAsync(string email, string password)
+// 회원가입 시 닉네임도 함께 받도록 매개변수 추가
+    public async Task<AuthResult> RegisterAsync(string email, string password, string nickname)
     {
         if (!IsFirebaseInitialized) throw new System.Exception("Firebase not ready.");
 
-        // 1. Auth로 유저 생성
         AuthResult authResult = await Auth.CreateUserWithEmailAndPasswordAsync(email, password);
         FirebaseUser newUser = authResult.User;
         Debug.LogFormat("Auth 회원가입 성공: {0} ({1})", newUser.DisplayName, newUser.UserId);
 
-        // 2. "배치(Batch) 작업"을 생성합니다.
         WriteBatch batch = DB.StartBatch();
 
-        // 3-1. (쓰기 1) 기본 유저 문서 참조
         DocumentReference userDocRef = DB.Collection("users").Document(newUser.UserId);
         var newPlayerData = new Dictionary<string, object>
         {
-            { "nickname", "NewPlayer" + UnityEngine.Random.Range(100, 999) },
+            { "nickname", nickname }, 
             { "email", email },
-            { "currency", 100 }, // 기본 재화
+            { "currency", 100 },
             { "created_at", FieldValue.ServerTimestamp },
             
-            // 3-2. 기본 꾸미기 정보(Loadout)
             { "current_loadout", new Dictionary<string, object> {
                 { "shirt", "default_shirt" },
                 { "pants", "default_pants" },
@@ -115,22 +112,18 @@ public class FirebaseManager : MonoBehaviour
         };
         batch.Set(userDocRef, newPlayerData); 
 
-        // 3-3. (쓰기 2) 'inventory' 하위 컬렉션에 기본 셔츠 아이템 추가
         DocumentReference shirtRef = userDocRef.Collection("inventory").Document("default_shirt");
         var shirtData = new Dictionary<string, object> { { "acquired_at", FieldValue.ServerTimestamp } };
         batch.Set(shirtRef, shirtData); 
 
-        // 3-4. (쓰기 3) 'inventory' 하위 컬렉션에 기본 바지 아이템 추가
         DocumentReference pantsRef = userDocRef.Collection("inventory").Document("default_pants");
         var pantsData = new Dictionary<string, object> { { "acquired_at", FieldValue.ServerTimestamp } };
         batch.Set(pantsRef, pantsData); 
 
-        // 3-5. (쓰기 4) 'inventory' 하위 컬렉션에 기본 얼굴 아이템 추가
         DocumentReference faceRef = userDocRef.Collection("inventory").Document("default_face");
         var faceData = new Dictionary<string, object> { { "acquired_at", FieldValue.ServerTimestamp } };
         batch.Set(faceRef, faceData);
 
-        // 4. (실행) 묶어둔 모든 쓰기 작업을 "전부 성공" 또는 "전부 실패"로 서버에 전송
         await batch.CommitAsync(); 
         
         Debug.Log($"Firestore에 {newUser.UserId} 유저 데이터 및 기본 아이템 생성 완료!");
