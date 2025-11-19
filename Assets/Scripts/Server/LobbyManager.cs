@@ -20,6 +20,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     public InputField roomNameInput;
     public Button createRoomButton;
     public Button joinRoomButton;
+    public Button customizeButton;
 
     [Header("Room Panel")]
     public Text roomNameText;
@@ -47,15 +48,16 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         // UI 버튼에 기능 연결
         createRoomButton.onClick.AddListener(CreateRoom);
         joinRoomButton.onClick.AddListener(JoinRoom);
+        if (customizeButton != null)
+        {
+            customizeButton.onClick.AddListener(OpenCustomizeScene);
+        }
 
         // connectButton 관련 로직은 Firebase에서 바로 연결을 시도하므로 제거하거나 비활성화합니다.
         // connectButton.onClick.AddListener(ConnectToServer);
 
-        // 시작 시 로비/룸 패널은 비활성화
-        lobbyPanel.SetActive(false);
-        roomPanel.SetActive(false);
-        // connectPanel도 비활성화 처리. 연결 상태를 보여주는 텍스트 등으로 대체할 수 있습니다.
-        connectPanel.SetActive(true);
+        // 시작 시 현재 Photon 연결 상태에 맞춰 UI 갱신
+        InitializePanels();
     }
     
     // 2. Firebase ID로 포톤에 접속하는 public 메서드 (핵심!)
@@ -114,8 +116,9 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     public override void OnConnectedToMaster()
     {
         Debug.Log("마스터 서버에 접속했습니다.");
-        connectPanel.SetActive(false);
-        lobbyPanel.SetActive(true); // 접속 성공 시 로비 패널 활성화
+        ShowLobbyPanel();
+        UpdateCustomizeButtonState(true);
+    CurrencyManager.TryPushCachedLoadoutToPhoton();
     }
 
     // 방 생성에 성공했을 때 호출되는 콜백
@@ -128,12 +131,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     public override void OnJoinedRoom()
     {
         Debug.Log("방에 참여했습니다.");
-        lobbyPanel.SetActive(false);
-        roomPanel.SetActive(true);
-        roomNameText.text = "방 이름: " + PhotonNetwork.CurrentRoom.Name;
-        UpdatePlayerList();
-        
-        startGameButton.gameObject.SetActive(PhotonNetwork.IsMasterClient);
+        ShowRoomPanel();
 
         // 마스터 클라이언트에게 teacher 역할 부여
         if (PhotonNetwork.IsMasterClient)
@@ -177,6 +175,12 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             Debug.Log(otherPlayer.NickName + "님이 퇴장했습니다.");
             UpdatePlayerList();
         }
+        
+            public override void OnLeftRoom()
+            {
+                Debug.Log("방에서 나왔습니다.");
+                ShowLobbyPanel();
+            }
     #endregion
 
 /*  10.01.12:43 179~188 line 수정
@@ -206,6 +210,81 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         if (PhotonNetwork.IsMasterClient)
         {
             PhotonNetwork.LoadLevel("MainScene");
+        }
+    }
+
+    private void OpenCustomizeScene()
+    {
+        UnityEngine.SceneManagement.SceneManager.LoadScene("CustomizeScene");
+    }
+
+    private void InitializePanels()
+    {
+        if (PhotonNetwork.InRoom)
+        {
+            ShowRoomPanel();
+            return;
+        }
+
+        if (PhotonNetwork.IsConnectedAndReady)
+        {
+            ShowLobbyPanel();
+            UpdateCustomizeButtonState(true);
+            CurrencyManager.TryPushCachedLoadoutToPhoton();
+            return;
+        }
+
+        ShowConnectPanel();
+        UpdateCustomizeButtonState(false);
+    }
+
+    private void ShowConnectPanel()
+    {
+        if (connectPanel != null) connectPanel.SetActive(true);
+        if (lobbyPanel != null) lobbyPanel.SetActive(false);
+        if (roomPanel != null) roomPanel.SetActive(false);
+        UpdateCustomizeButtonState(false);
+    }
+
+    private void ShowLobbyPanel()
+    {
+        if (connectPanel != null) connectPanel.SetActive(false);
+        if (lobbyPanel != null) lobbyPanel.SetActive(true);
+        if (roomPanel != null) roomPanel.SetActive(false);
+
+        if (PhotonNetwork.IsConnectedAndReady && !PhotonNetwork.InLobby)
+        {
+            PhotonNetwork.JoinLobby();
+        }
+
+        UpdateCustomizeButtonState(true);
+        CurrencyManager.TryPushCachedLoadoutToPhoton();
+    }
+
+    private void ShowRoomPanel()
+    {
+        if (connectPanel != null) connectPanel.SetActive(false);
+        if (lobbyPanel != null) lobbyPanel.SetActive(false);
+        if (roomPanel != null) roomPanel.SetActive(true);
+
+        if (roomNameText != null && PhotonNetwork.CurrentRoom != null)
+        {
+            roomNameText.text = "방 이름: " + PhotonNetwork.CurrentRoom.Name;
+        }
+
+        if (startGameButton != null)
+        {
+            startGameButton.gameObject.SetActive(PhotonNetwork.IsMasterClient);
+        }
+
+        UpdatePlayerList();
+    }
+
+    private void UpdateCustomizeButtonState(bool canUse)
+    {
+        if (customizeButton != null)
+        {
+            customizeButton.interactable = canUse;
         }
     }
 }

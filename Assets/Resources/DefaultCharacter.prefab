@@ -83,7 +83,7 @@ SkinnedMeshRenderer:
   m_Quality: 0
   m_UpdateWhenOffscreen: 0
   m_SkinnedMotionVectors: 1
-  m_Mesh: {fileID: -3950228387462889971, guid: d0367ce8ac8ac514a9278f7eb0ed66ac, type: 3}
+  m_Mesh: {fileID: 0}
   m_Bones:
   - {fileID: 3554371703202553670}
   - {fileID: 6993065550090142681}
@@ -192,7 +192,7 @@ Transform:
   m_GameObject: {fileID: 693468128873934495}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0, y: 0, z: 0}
+  m_LocalPosition: {x: -0, y: 0, z: 0.81}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -384,7 +384,7 @@ SkinnedMeshRenderer:
   m_Quality: 0
   m_UpdateWhenOffscreen: 0
   m_SkinnedMotionVectors: 1
-  m_Mesh: {fileID: -7927354642031663450, guid: 819bbc3929ae14e43b0d8405d65589f9, type: 3}
+  m_Mesh: {fileID: 7277813940581652077, guid: ad472b939cd48144e9521d873c2e3018, type: 3}
   m_Bones:
   - {fileID: 3554371703202553670}
   - {fileID: 6993065550090142681}
@@ -647,7 +647,7 @@ SkinnedMeshRenderer:
   m_Quality: 0
   m_UpdateWhenOffscreen: 0
   m_SkinnedMotionVectors: 1
-  m_Mesh: {fileID: -4695107088515116087, guid: 49afccecce4f7b446a34b4e3223cf8ff, type: 3}
+  m_Mesh: {fileID: -2315652163027026327, guid: ad472b939cd48144e9521d873c2e3018, type: 3}
   m_Bones:
   - {fileID: 3554371703202553670}
   - {fileID: 6993065550090142681}
@@ -2039,7 +2039,7 @@ SkinnedMeshRenderer:
   m_Quality: 0
   m_UpdateWhenOffscreen: 0
   m_SkinnedMotionVectors: 1
-  m_Mesh: {fileID: 2912484300477787147, guid: b4d34f152c73703499b03a8b9beab646, type: 3}
+  m_Mesh: {fileID: 4554999278103424840, guid: ad472b939cd48144e9521d873c2e3018, type: 3}
   m_Bones:
   - {fileID: 3554371703202553670}
   - {fileID: 6993065550090142681}
@@ -3024,6 +3024,8 @@ GameObject:
   - component: {fileID: 3165143439149645238}
   - component: {fileID: -4510572737747536851}
   - component: {fileID: 1852540294215636271}
+  - component: {fileID: -1520790959580843126}
+  - component: {fileID: 4934078747107282675}
   m_Layer: 0
   m_Name: DefaultCharacter
   m_TagString: Player
@@ -3196,6 +3198,7 @@ MonoBehaviour:
   currentTarget: {fileID: 0}
   debugInteractable: 1
   equippedTarget: 
+  isInDialogue: 0
   equippedBoxUI: {fileID: 0}
 --- !u!114 &8837579995425452244
 MonoBehaviour:
@@ -3445,6 +3448,50 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc08842fc80fbe842b0d16a0c6ed9c9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NetworkPlayerRigidbodySync
+--- !u!114 &-1520790959580843126
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7765487168582293408}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d552cbdaad687247acf06538bc53f6b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CustomizeManager
+  characterRoot: {fileID: 3343811778964530453}
+  facePicker: {fileID: 4508699782572527194}
+  slotBindings:
+  - category: shirt
+    renderer: {fileID: 3055555205809926528}
+    usesFacePicker: 0
+    clearWhenMissing: 0
+  - category: pants
+    renderer: {fileID: 724507057297465839}
+    usesFacePicker: 0
+    clearWhenMissing: 0
+  - category: face
+    renderer: {fileID: 5865825189046720920}
+    usesFacePicker: 1
+    clearWhenMissing: 0
+  - category: hat
+    renderer: {fileID: 4422865696605355947}
+    usesFacePicker: 0
+    clearWhenMissing: 1
+--- !u!114 &4934078747107282675
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7765487168582293408}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29a95ac176faed940837025bfa7913ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerLoadoutApplier
+  customizeManager: {fileID: -1520790959580843126}
 --- !u!1 &7812687594695237914
 GameObject:
   m_ObjectHideFlags: 0
