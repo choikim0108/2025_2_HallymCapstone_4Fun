@@ -4,8 +4,7 @@ using Photon.Pun;
 public class TeacherVision : MonoBehaviourPunCallbacks
 {
     [Header("Settings")]
-    public Color highlightColor = Color.green;
-    public Color outlineColor = Color.black;
+    public Color highlightColor = new Color(0, 1, 0, 0.5f); // 50% 투명도의 녹색
     public float scanInterval = 2.0f;
 
     private Coroutine _scanCoroutine;
@@ -35,7 +34,6 @@ public class TeacherVision : MonoBehaviourPunCallbacks
         _scanCoroutine = null;
     }
 
-    // ReSharper disable Unity.PerformanceAnalysis
     private System.Collections.IEnumerator ScanRoutine()
     {
         WaitForSeconds wait = new WaitForSeconds(scanInterval);
@@ -44,7 +42,6 @@ public class TeacherVision : MonoBehaviourPunCallbacks
             ApplyHighlights();
             yield return wait;
         }
-        // ReSharper disable once IteratorNeverReturns
     }
 
     public void ApplyHighlights()
@@ -53,7 +50,6 @@ public class TeacherVision : MonoBehaviourPunCallbacks
         int layer = LayerMask.NameToLayer("Interactable");
         if (layer == -1) layer = 6;
 
-        // Use FindObjectsByType for broader compatibility and safety
         GameObject[] allObjects = FindObjectsByType<GameObject>(FindObjectsSortMode.None);
         foreach (GameObject obj in allObjects)
         {
@@ -63,7 +59,6 @@ public class TeacherVision : MonoBehaviourPunCallbacks
                 {
                     var highlighter = obj.AddComponent<InteractableHighlighter>();
                     highlighter.highlightColor = highlightColor;
-                    highlighter.outlineColor = outlineColor;
                 }
             }
         }
@@ -74,97 +69,86 @@ public class InteractableHighlighter : MonoBehaviour
 {
     private static readonly int ZWrite = Shader.PropertyToID("_ZWrite");
     private static readonly int ZTest = Shader.PropertyToID("_ZTest");
-    public Color highlightColor = Color.green;
-    public Color outlineColor = Color.black;
+    private static readonly int SrcBlend = Shader.PropertyToID("_SrcBlend");
+    private static readonly int DstBlend = Shader.PropertyToID("_DstBlend");
     
-    private GameObject _mainCube;
-    private GameObject _outlineCube;
-    
-    private Material _highlightMaterial;
-    private Material _outlineMaterial;
+    public Color highlightColor = new Color(0, 1, 0, 0.5f);
+
+    private Material[] _originalMaterials;
+    private Material[] _overlayMaterials;
+    private Renderer _renderer;
 
     private void OnEnable()
     {
-        CreateIndicator();
+        ApplyOverlay();
     }
 
     private void OnDisable()
     {
-        Cleanup();
+        RemoveOverlay();
     }
 
     private void OnDestroy()
     {
-        Cleanup();
+        RemoveOverlay();
     }
 
-    private void Cleanup()
+    private void ApplyOverlay()
     {
-        if (_mainCube != null) Destroy(_mainCube);
-        if (_outlineCube != null) Destroy(_outlineCube);
-        if (_highlightMaterial != null) Destroy(_highlightMaterial);
-        if (_outlineMaterial != null) Destroy(_outlineMaterial);
-    }
+        _renderer = GetComponent<Renderer>();
+        if (_renderer == null) return;
 
-    private void CreateIndicator()
-    {
-        Cleanup(); // Ensure clean state
+        _originalMaterials = _renderer.materials;
+        _overlayMaterials = new Material[_originalMaterials.Length + 1];
 
-        // 1. Create Main Cube (Green)
-        _mainCube = GameObject.CreatePrimitive(PrimitiveType.Cube);
-        SetupCube(_mainCube, highlightColor, 0.1f, 0);
-
-        // 2. Create Outline Cube (Black, slightly larger)
-        _outlineCube = GameObject.CreatePrimitive(PrimitiveType.Cube);
-        SetupCube(_outlineCube, outlineColor, 0.13f, 1);
-    }
-
-    private void SetupCube(GameObject cube, Color color, float scale, int renderQueueOffset)
-    {
-        Collider col = cube.GetComponent<Collider>();
-        if (col != null) Destroy(col);
-
-        cube.transform.localScale = new Vector3(scale, scale, scale);
-        // Set layer to Default or Ignore Raycast to prevent self-detection if TeacherVision scans everything
-        cube.layer = 0; 
-
-        Material mat = CreateZTestAlwaysMaterial(color);
-        mat.renderQueue = 3000 + renderQueueOffset;
-
-        Renderer rend = cube.GetComponent<Renderer>();
-        if (rend != null)
+        // 기존 머티리얼 복사
+        for (int i = 0; i < _originalMaterials.Length; i++)
         {
-            rend.material = mat;
-            rend.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
-            rend.receiveShadows = false;
+            _overlayMaterials[i] = _originalMaterials[i];
         }
+
+        // 오버레이 머티리얼 추가
+        _overlayMaterials[_originalMaterials.Length] = CreateOverlayMaterial();
+        _renderer.materials = _overlayMaterials;
     }
 
-    private Material CreateZTestAlwaysMaterial(Color color)
+    private Material CreateOverlayMaterial()
     {
         Shader shader = Shader.Find("Hidden/Internal-Colored");
-        if (shader == null) shader = Shader.Find("GUI/Text Shader");
-        if (shader == null) shader = Shader.Find("Unlit/Color");
+        if (shader == null) shader = Shader.Find("Standard");
 
         Material mat = new Material(shader);
-        mat.color = color;
+        mat.color = highlightColor;
+        
+        // ZTest Always로 설정하여 항상 보이게 함
         mat.SetInt(ZTest, (int)UnityEngine.Rendering.CompareFunction.Always);
         mat.SetInt(ZWrite, 0);
-        mat.EnableKeyword("_ALPHABLEND_ON");
         
+        // 투명도 처리
+        mat.SetInt(SrcBlend, (int)UnityEngine.Rendering.BlendMode.SrcAlpha);
+        mat.SetInt(DstBlend, (int)UnityEngine.Rendering.BlendMode.OneMinusSrcAlpha);
+        mat.EnableKeyword("_ALPHABLEND_ON");
+        mat.renderQueue = 3000;
+
         return mat;
     }
 
-    private void Update()
+    private void RemoveOverlay()
     {
-        if (!_mainCube || !_outlineCube) return;
+        if (_renderer != null && _originalMaterials != null)
+        {
+            _renderer.materials = _originalMaterials;
+        }
 
-        Vector3 targetPos = transform.position + Vector3.up * 2.0f;
-
-        _mainCube.transform.position = targetPos;
-        _outlineCube.transform.position = targetPos;
-
-        _mainCube.transform.rotation = Quaternion.identity;
-        _outlineCube.transform.rotation = Quaternion.identity;
+        if (_overlayMaterials != null)
+        {
+            for (int i = _originalMaterials.Length; i < _overlayMaterials.Length; i++)
+            {
+                if (_overlayMaterials[i] != null)
+                {
+                    Destroy(_overlayMaterials[i]);
+                }
+            }
+        }
     }
 }

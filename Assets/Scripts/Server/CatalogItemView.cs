@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public class CatalogItemView : MonoBehaviour
 {
     [Header("UI References")]
-    [SerializeField] private TMP_Text nameLabel;// ★ TMP 사용 가능하게 수정
+    [SerializeField] private Text nameLabel;
     [SerializeField] private TextMeshProUGUI priceLabel;
     [SerializeField] private Toggle equipToggle;
     [SerializeField] private Button purchaseButton;
