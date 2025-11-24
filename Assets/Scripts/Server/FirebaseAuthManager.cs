@@ -4,6 +4,7 @@ using Firebase.Auth;
 using Firebase;
 using TMPro;
 
+
 public class FirebaseAuthManager : MonoBehaviour
 {
     [Header("UI Elements")]
@@ -20,7 +21,8 @@ public class FirebaseAuthManager : MonoBehaviour
     {
         // [수정] 1. 시작할 때 버튼과 입력창을 비활성화
         SetUIInteractable(false);
-        statusText.text = "Firebase 초기화 중...";
+        statusText.text = "";
+        Debug.Log("Firebase 초기화 중..."); // Firebase 초기화 메시지 콘솔에만 표기(화면X)
 
         // [수정] 2. FirebaseManager가 준비 완료 이벤트를 보낼 때까지 대기
         // (싱글톤 인스턴스는 Awake에서 생성되므로 Start에서 접근해도 안전)
@@ -78,21 +80,23 @@ public class FirebaseAuthManager : MonoBehaviour
     // [추가] 3. FirebaseManager로부터 초기화 완료 신호를 받는 함수
     private void HandleFirebaseReady(bool success, string message)
     {
-        statusText.text = message;
-
         if (!success)
         {
-            // 실패 시 UI는 계속 비활성화 (로그인 불가)
+            // 실패 메시지는 화면에 그대로 표시
+            statusText.text = message;
             SetUIInteractable(false);
             return;
         }
+
+        // 성공 메시지는 콘솔만 출력, 화면에는 표시 X
+        Debug.Log(message);
+        statusText.text = "";   // 화면 초기화
 
         if (TryRestoreSession())
         {
             return;
         }
 
-        // 유지된 세션이 없다면 수동 입력을 허용
         SetUIInteractable(true);
     }
 
@@ -128,7 +132,9 @@ public class FirebaseAuthManager : MonoBehaviour
         manager.CacheUser(currentUser);
 
         string userLabel = string.IsNullOrWhiteSpace(currentUser.Email) ? manager.UserId : currentUser.Email;
-        statusText.text = $"이미 로그인된 상태입니다: {userLabel}";
+        Debug.Log($"이미 로그인된 상태: {userLabel}");
+        // 수정) UI에 텍스트는 표시하지 않음
+        statusText.text = "";
         SetUIInteractable(false);
 
         if (CurrencyManager.Instance != null)
@@ -260,4 +266,11 @@ public class FirebaseAuthManager : MonoBehaviour
                 return "오류가 발생했습니다: " + errorCode.ToString();
         }
     }
+
+    public void ClearStatusText() /* 로그인 성공 후 로비패널 넘어가서 "로그인 성공!" 텍스트 삭제를 위한 '지우는 함수' */
+    {
+        if (statusText != null)
+            statusText.text = "";
+    }
+
 }

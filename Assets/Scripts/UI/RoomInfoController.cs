@@ -1,6 +1,7 @@
 ﻿using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro; // TextMeshPro 사용
 using System.Text; // StringBuilder 사용
 
@@ -10,7 +11,13 @@ public class RoomInfoController : MonoBehaviourPunCallbacks
     public GameObject TabKeyPanelUI; // TAB 누르면 켤/끌 패널
     [Header("Buttons on Tab Panel")]    // 토글할 버튼들
     public GameObject TeacherPanelOpenButton;
-    public GameObject SetupPanelOpenButton;    
+    public GameObject SetupPanelOpenButton;
+    [Header("New Menu Buttons")] // 로비 이동 및 게임 종료 버튼
+    public Button leaveButton;
+    public Button quitButton;
+
+    [Header("Camera Settings")] // 카메라 고정을 위한 변수
+    public MonoBehaviour cameraMovementScript; // 카메라를 움직이는 스크립트 (예: MouseLook)    
     [Header("UI Texts")]
     public TextMeshProUGUI roomNameText; // 방 이름을 표시할 텍스트
     public TextMeshProUGUI playerListText; // 플레이어 목록을 표시할 텍스트
@@ -18,20 +25,17 @@ public class RoomInfoController : MonoBehaviourPunCallbacks
 
     void Start()
     {
-        // 시작할 때 패널을 비활성화
-        if (TabKeyPanelUI != null)
-        {
-            TabKeyPanelUI.SetActive(false);
-        }
-        // 버튼들도 비활성화
-        if (TeacherPanelOpenButton != null)
-        {
-            TeacherPanelOpenButton.SetActive(false);
-        }
-        if (SetupPanelOpenButton != null)
-        {
-            SetupPanelOpenButton.SetActive(false);
-        }
+        // 패널 초기화
+        if (TabKeyPanelUI != null) TabKeyPanelUI.SetActive(false);
+        if (TeacherPanelOpenButton != null) TeacherPanelOpenButton.SetActive(false);
+        if (SetupPanelOpenButton != null) SetupPanelOpenButton.SetActive(false);
+
+        // [추가] 버튼 기능 연결
+        if (leaveButton != null)
+            leaveButton.onClick.AddListener(OnLeaveRoomButtonClicked);
+        
+        if (quitButton != null)
+            quitButton.onClick.AddListener(OnQuitGameButtonClicked);
 
         // 방 이름 설정 (한 번만 하면 됨)
         if (roomNameText != null && PhotonNetwork.CurrentRoom != null)
@@ -95,6 +99,20 @@ void Update()
             TeacherPanelOpenButton.SetActive(isTabPanelActive && isTeacher);
         }
 
+        // 카메라 고정/해제 로직
+        // UI가 켜지면(True) -> 카메라 스크립트 끄기 (False)
+        // UI가 꺼지면(False) -> 카메라 스크립트 켜기 (True)
+        if (cameraMovementScript != null)
+        {
+            cameraMovementScript.enabled = !isTabPanelActive;
+        }
+
+        // 패널이 켜질 때만 목록 갱신
+        if (isTabPanelActive)
+        {
+            UpdatePlayerList();
+        }
+
         // 패널이 켜질 때만 목록 갱신
         if (isTabPanelActive)
         {
@@ -102,6 +120,32 @@ void Update()
         }
     }
 
+    // [추가] 로비로 돌아가기 버튼 클릭 시
+    public void OnLeaveRoomButtonClicked()
+    {
+        Debug.Log("방 떠나기 요청...");
+        PhotonNetwork.LeaveRoom(); // 방 나가기 -> OnLeftRoom 호출됨
+    }
+
+    // [추가] 게임 종료 버튼 클릭 시
+    public void OnQuitGameButtonClicked()
+    {
+        Debug.Log("게임 종료...");
+        Application.Quit(); // 빌드된 게임 종료
+        
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false; // 에디터에서도 종료되도록 함
+#endif
+    }
+
+    // [추가] 방을 완전히 나갔을 때 호출되는 콜백
+    public override void OnLeftRoom()
+    {
+        Debug.Log("방을 나갔습니다. 로비 씬으로 이동합니다.");
+        // "LobbyScene" 부분을 실제 로비 씬 이름으로 변경해주세요.
+        PhotonNetwork.LoadLevel("LobbyScene"); 
+    }
+    
     // CursorController가 현재 패널 상태를 확인할 수 있도록 함
     public bool IsPanelActive()
     {

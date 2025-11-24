@@ -93,4 +93,17 @@ public class TeacherPanelController : MonoBehaviourPunCallbacks
         }
         Debug.Log("RecordStopButtonClicked: VoiceRecorder 오브젝트를 찾았습니다.");
     }
+
+    public void OnNpcShuffleButtonClicked()
+    {
+        if (NpcManager.Instance != null)
+        {
+            NpcManager.Instance.ShuffleNpcs();
+            Debug.Log("NPC Shuffle Requested.");
+        }
+        else
+        {
+            Debug.LogError("NpcManager Instance not found!");
+        }
+    }
 }

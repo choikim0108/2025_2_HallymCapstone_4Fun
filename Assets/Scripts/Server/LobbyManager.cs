@@ -12,6 +12,9 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
     private string gameVersion = "1"; // 게임 버전
 
+    // ★ FirebaseAuthManager 참조 (Inspector에서 연결할거임)
+    public FirebaseAuthManager authManager;
+
     [Header("UI Panels")]
     public GameObject connectPanel; // 이제 이 패널은 거의 사용되지 않습니다.
     public GameObject lobbyPanel;
@@ -299,6 +302,11 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         if (roomPanel != null) roomPanel.SetActive(false);
 
         if (lobbyStatusText != null) lobbyStatusText.text = ""; // [추가] 로비 패널로 돌아올 때 상태 메시지 초기화
+
+        if (authManager != null)  // ★ 로그인/회원가입 statusText도 함께 지우기
+        {
+            authManager.ClearStatusText();
+        }
 
         if (PhotonNetwork.IsConnectedAndReady && !PhotonNetwork.InLobby)
         {
