@@ -7,7 +7,7 @@
 ![License](https://img.shields.io/badge/License-MIT-green)
 ![Photon](https://img.shields.io/badge/Network-Photon_PUN2-00B2FF)
 
-본 프로젝트는 Unity 엔진을 기반으로 하는 **AI 튜터 연동형 교육 메타버스**입니다. 교사 1인과 학생 3인이 실시간으로 상호작용하며 학습 콘텐츠를 체험하는 몰입형 교육 환경을 제공하는 것을 목표로 합니다.
+본 프로젝트는 Unity 엔진을 기반으로 하는 **메타버스 기반 상황극형 외국어 학습 플랫폼**입니다. 교사 1인과 학생 3인이 실시간으로 상호작용하며 학습 콘텐츠를 체험하는 몰입형 교육 환경을 제공하는 것을 목표로 합니다.
 
 ---
 
