@@ -55,7 +55,7 @@
 | :---: | :---: | :--- | :---: |
 | **김지훈** | **Team Leader** | PM, Unity 클라이언트 핵심 로직, AI(WhisperX) 서버 개발 | [@GitHubID](https://github.com/choikim0108) |
 | **원현섭** | **Developer** | Photon 네트워크 동기화, Firebase 백엔드 연동, 매칭 시스템 | [@GitHubID](https://github.com/choikim0108) |
-| **김태건** | **Designer/Dev** | UI/UX 기획 및 디자인, 로비/인게임 UI 구현 | [@GitHubID](https://github.com/choikim0108) |
+| **김태건** | **Designer/Dev** | UI/UX 기획 및 디자인, 로비/인게임 UI 구현 | [@GitHubID](https://blog.naver.com/noegeat)|
 
 ---
 
