@@ -4,31 +4,40 @@ using UnityEngine.UI;
 public class SetupPanelController : MonoBehaviour
 {
     public GameObject setupPanel;
-    public Button setupPanelOpenButton;
-    public Button setupPanelCloseButton;
+    public Button setupPanelOpenButton;  // Button 타입 유지
+    public Button setupPanelCloseButton; // Button 타입 유지
 
     void Start()
     {
-        // 시작 시 SetupPanel은 비활성화, OpenButton은 활성화, CloseButton은 비활성화
-        setupPanel.SetActive(false);
-        setupPanelOpenButton.gameObject.SetActive(false);
-        setupPanelCloseButton.gameObject.SetActive(false);
+        // 초기화
+        ClosePanel();
 
-        setupPanelOpenButton.onClick.AddListener(OpenPanel);
-        setupPanelCloseButton.onClick.AddListener(ClosePanel);
+        // 버튼 이벤트 안전하게 연결
+        if (setupPanelOpenButton != null)
+        {
+            setupPanelOpenButton.onClick.RemoveAllListeners();
+            setupPanelOpenButton.onClick.AddListener(OpenPanel);
+        }
+
+        if (setupPanelCloseButton != null)
+        {
+            setupPanelCloseButton.onClick.RemoveAllListeners();
+            setupPanelCloseButton.onClick.AddListener(ClosePanel);
+        }
     }
 
     public void OpenPanel()
     {
-        setupPanel.SetActive(true);
-        setupPanelOpenButton.gameObject.SetActive(false);
-        setupPanelCloseButton.gameObject.SetActive(true);
+        if (setupPanel != null) setupPanel.SetActive(true);
+        // Button 타입이므로 .gameObject를 통해 SetActive 사용
+        if (setupPanelOpenButton != null) setupPanelOpenButton.gameObject.SetActive(false);
+        if (setupPanelCloseButton != null) setupPanelCloseButton.gameObject.SetActive(true);
     }
 
     public void ClosePanel()
     {
-        setupPanel.SetActive(false);
-        setupPanelOpenButton.gameObject.SetActive(true);
-        setupPanelCloseButton.gameObject.SetActive(false);
+        if (setupPanel != null) setupPanel.SetActive(false);
+        if (setupPanelOpenButton != null) setupPanelOpenButton.gameObject.SetActive(true);
+        if (setupPanelCloseButton != null) setupPanelCloseButton.gameObject.SetActive(false);
     }
 }

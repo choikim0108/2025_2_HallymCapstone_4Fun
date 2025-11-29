@@ -1,9 +1,10 @@
+using Photon.Pun;
 using UnityEngine;
 
 namespace Controller
 {
     [RequireComponent(typeof(CharacterMover))]
-    public class MovePlayerInput : Photon.Pun.MonoBehaviourPun
+    public class MovePlayerInput : MonoBehaviourPun
     {
         [Header("Character")]
         [SerializeField]
@@ -35,6 +36,8 @@ namespace Controller
         private Vector2 m_MouseDelta;
         private float m_Scroll;
 
+        private bool inputEnabled = true;
+        
         private void Awake()
         {
             m_Mover = GetComponent<CharacterMover>();
@@ -54,8 +57,16 @@ namespace Controller
 
         private void Update()
         {
+            if (!inputEnabled) return;
+            
             GatherInput();
             SetInput();
+            
+        }
+
+        public void SetInputEnabled(bool enabled)
+        {
+            inputEnabled = enabled;
         }
 
         public void GatherInput()
@@ -97,5 +108,21 @@ namespace Controller
                 m_Camera.SetInput(in m_MouseDelta, m_Scroll);
             }
         }
+
+        public void ResetInputState()
+        {
+            m_Axis = Vector2.zero;
+            m_IsRun = false;
+            m_IsJump = false;
+            m_MouseDelta = Vector2.zero;
+            m_Scroll = 0f;
+
+            // CharacterMover에도 초기화된 입력 전달
+            if (m_Mover != null) m_Mover.SetInput(in m_Axis, in m_Target, in m_IsRun, m_IsJump);
+
+            // 카메라에도 초기화된 입력 전달
+            if (m_Camera != null) m_Camera.SetInput(in m_MouseDelta, m_Scroll);
+        }
+        
     }
 }

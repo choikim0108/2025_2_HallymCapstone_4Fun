@@ -128,6 +128,7 @@ MonoBehaviour:
   interactDistance: 2
   interactUIPrefab: {fileID: 4567588601587523750, guid: 022293d17b7ebed46aaf297e137105b3, type: 3}
   boxType: 2
+  equippedBoxUI: {fileID: 0}
 --- !u!114 &5770413817017394603
 MonoBehaviour:
   m_ObjectHideFlags: 0

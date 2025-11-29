@@ -68,6 +68,16 @@ public class FirebaseAuthManager : MonoBehaviour
                 emailInput.ActivateInputField(); // 닉네임 -> 이메일
             }
         }
+        // 엔터키(Return) 입력 시 로그인 시도
+        // 일반 엔터(Return) 또는 키패드 엔터(KeypadEnter) 감지
+        if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
+        {
+            // 현재 로직이 처리 중이 아니고, 로그인 버튼이 활성화된 상태라면 로그인 시도
+            if (!isProcessing && loginButton.interactable)
+            {
+                OnLoginClicked();
+            }
+        }
     }
     private void OnDestroy()
     {

@@ -135,7 +135,7 @@ public class BoxInteractable : Interactable
     // Explosive 박스용: 들고 있는 시간, 폭발 확률
     private float explosiveTick = 0f;
     private float explosiveBaseChance = 0.01f; // 시작 확률 1%
-    private float explosiveChanceIncrease = 0.0f; // 0.01f, 테스트용으로 0으로 수정해둠. 초당 1% 증가
+    private float explosiveChanceIncrease = 0.0003f; // 터질 확률 증가량
     private bool isEquipped = false;
     private int equippedPlayerViewID = -1; // 박스를 든 플레이어의 ViewID
 

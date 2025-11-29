@@ -1,8 +1,9 @@
+using Photon.Pun;
 using UnityEngine;
 
 namespace Controller
 {
-    public abstract class PlayerCamera : Photon.Pun.MonoBehaviourPun
+    public abstract class PlayerCamera : MonoBehaviourPun
     {
         private const float MIN_DISTANCE = 1f;
         private const float MAX_DISTANCE = 10f;
@@ -35,6 +36,8 @@ namespace Controller
         public Vector3 Target => m_Target.position;
         public float TargetDistance => TARGET_DISTANCE;
 
+        private bool inputEnabled = true;
+        
         protected virtual void Awake()
         {
             m_Transform = transform;
@@ -45,6 +48,23 @@ namespace Controller
             }
             // photonView.IsMine 체크 및 this.enabled = false; 완전히 제거!
         }
+
+        private void Update()
+        {
+            if (!inputEnabled) return; // 입력이 비활성화되면 즉시 반환
+        }
+
+        public void SetInputEnabled(bool enabled)
+        {
+            inputEnabled = enabled;
+        }
+
+        public void ResetInputState()
+        {
+            // 카메라 입력 상태 초기화 - SetInput을 호출하여 기존 입력을 무효화
+            SetInput(Vector2.zero, 0f);
+        }
+        
         
 
         public void SetPlayer(Transform player)

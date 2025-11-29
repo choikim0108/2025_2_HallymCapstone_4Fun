@@ -1,57 +1,81 @@
 ﻿using UnityEngine;
 using Photon.Pun;
+using Photon.Realtime; // Player 타입을 쓰기 위해 필요
 using System.Collections.Generic;
-using System.Linq;
 
 public class BusController : MonoBehaviourPun
 {
     public float moveSpeed = 10f;
     public float turnSpeed = 50f;
-    public Transform exitPoint; // 플레이어가 하차할 위치 (버스 옆 빈 오브젝트)
+    public Transform exitPoint;
 
     private int driverViewID = -1;
     private List<int> passengerViewIDs = new List<int>();
 
     void Awake()
     {
-        // exitPoint가 설정되지 않았다면 버스 위치를 기준으로 설정
         if (exitPoint == null)
         {
             exitPoint = new GameObject("ExitPoint").transform;
             exitPoint.SetParent(this.transform);
-            exitPoint.localPosition = new Vector3(2.5f, 0, 0); // 버스 오른쪽 2.5m
+            exitPoint.localPosition = new Vector3(-2.5f, 0, 0);
         }
     }
 
     void Update()
     {
-        // 운전자만 버스를 조종할 수 있음
-        if (driverViewID != -1 && PhotonView.Find(driverViewID).IsMine)
+        // [중요] 소유권을 가진 사람(운전자)만 이동 로직을 실행하고, 
+        // 그 결과는 PhotonTransformView를 통해 자동으로 동기화됩니다.
+        if (photonView.IsMine && driverViewID != -1)
         {
-            HandleMovement();
+            // 현재 운전자가 "나"인지 한 번 더 확인 (이중 체크)
+            var driverPhotonView = PhotonView.Find(driverViewID);
+            if (driverPhotonView != null && driverPhotonView.IsMine)
+            {
+                HandleMovement();
+            }
         }
     }
 
     private void HandleMovement()
     {
         float moveInput = Input.GetAxis("Vertical");
-        transform.Translate(Vector3.forward * moveInput * moveSpeed * Time.deltaTime);
-
         float turnInput = Input.GetAxis("Horizontal");
+
+        if (Mathf.Abs(moveInput) < 0.01f)
+        {
+            turnInput = 0f;
+        }
+        else
+        {
+            if (moveInput < 0)
+            {
+                turnInput = -turnInput;
+            }
+        }
+
+        transform.Translate(Vector3.forward * moveInput * moveSpeed * Time.deltaTime);
         transform.Rotate(Vector3.up * turnInput * turnSpeed * Time.deltaTime);
     }
 
-    // [RPC - MasterClient Only] 플레이어의 탑승 요청을 처리
+    // [RPC] 플레이어의 탑승 요청 처리
     [PunRPC]
     public void BoardRequestRPC(int playerViewID)
     {
         if (!PhotonNetwork.IsMasterClient) return;
 
-        // 이미 탑승 중인 플레이어는 요청 무시
         if (driverViewID == playerViewID || passengerViewIDs.Contains(playerViewID)) return;
 
         if (driverViewID == -1) // 운전석이 비어있으면
         {
+            // [핵심] 운전자에게 버스의 소유권을 넘깁니다.
+            PhotonView playerPv = PhotonView.Find(playerViewID);
+            if (playerPv != null)
+            {
+                // 소유권 이전 (이 코드는 MasterClient에서 실행되므로 권한이 있습니다)
+                photonView.TransferOwnership(playerPv.Owner);
+            }
+
             photonView.RPC("SetDriverRPC", RpcTarget.All, playerViewID);
         }
         else // 운전석이 차있으면
@@ -60,7 +84,7 @@ public class BusController : MonoBehaviourPun
         }
     }
 
-    // [RPC - MasterClient Only] 플레이어의 하차 요청을 처리
+    // [RPC] 플레이어의 하차 요청 처리
     [PunRPC]
     public void GetOffRequestRPC(int playerViewID)
     {
@@ -68,7 +92,7 @@ public class BusController : MonoBehaviourPun
 
         if (driverViewID == playerViewID) // 운전자가 내리는 경우
         {
-            // 모든 탑승자도 함께 내리게 함
+            // 모든 탑승자 하차
             List<int> allRiders = new List<int>(passengerViewIDs);
             allRiders.Add(driverViewID);
 
@@ -77,28 +101,35 @@ public class BusController : MonoBehaviourPun
                 photonView.RPC("EjectPlayerRPC", RpcTarget.All, riderID);
             }
 
-            // 버스 상태 초기화
+            // [핵심] 운전자가 내리면 소유권을 다시 가져옵니다 (MasterClient나 Scene으로)
+            // RequestOwnership()은 소유권을 뺏어오는 것이고, TransferOwnership은 넘겨주는 것입니다.
+            // 여기서는 MasterClient가 다시 소유권을 가져갑니다.
+            if (photonView.Owner != PhotonNetwork.MasterClient)
+            {
+                photonView.TransferOwnership(PhotonNetwork.MasterClient);
+            }
+
             photonView.RPC("ResetBusRPC", RpcTarget.All);
         }
-        else if (passengerViewIDs.Contains(playerViewID)) // 탑승자가 내리는 경우
+        else if (passengerViewIDs.Contains(playerViewID))
         {
             photonView.RPC("EjectPlayerRPC", RpcTarget.All, playerViewID);
         }
     }
 
-    // [RPC - All Clients] 운전자를 설정
     [PunRPC]
     private void SetDriverRPC(int playerViewID)
     {
         driverViewID = playerViewID;
         var playerView = PhotonView.Find(playerViewID);
+        
+        // IsMine 체크: 이 코드를 실행하는 클라이언트가 "운전자 본인"일 때만 탑승 처리
         if (playerView != null && playerView.IsMine)
         {
             playerView.GetComponent<PlayerInteraction>().OnBoardedAsDriver(this.gameObject);
         }
     }
 
-    // [RPC - All Clients] 탑승자를 추가
     [PunRPC]
     private void AddPassengerRPC(int playerViewID)
     {
@@ -113,11 +144,9 @@ public class BusController : MonoBehaviourPun
         }
     }
 
-    // [RPC - All Clients] 특정 플레이어를 하차시킴
     [PunRPC]
     private void EjectPlayerRPC(int playerViewID)
     {
-        // 하차할 플레이어 목록에서 제거
         if (driverViewID == playerViewID) driverViewID = -1;
         if (passengerViewIDs.Contains(playerViewID)) passengerViewIDs.Remove(playerViewID);
 
@@ -128,7 +157,6 @@ public class BusController : MonoBehaviourPun
         }
     }
 
-    // [RPC - All Clients] 버스의 모든 상태를 초기화
     [PunRPC]
     private void ResetBusRPC()
     {
