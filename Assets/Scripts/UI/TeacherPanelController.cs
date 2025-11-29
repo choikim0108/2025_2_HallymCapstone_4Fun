@@ -5,52 +5,63 @@ using UnityEngine.UI;
 public class TeacherPanelController : MonoBehaviourPunCallbacks
 {
     public GameObject teacherPanel;
-    public GameObject teacherPanelOpenButton;
-    public GameObject teacherPanelCloseButton;
+    public Button teacherPanelOpenButton;   // [변경] GameObject -> Button
+    public Button teacherPanelCloseButton;  // [변경] GameObject -> Button
 
     void Start()
     {
-        // 내 플레이어의 CustomProperties에서 Role 확인
+        // 초기화
+        OnCloseTeacherPanel();
+        
+        // 버튼 이벤트 안전하게 연결
+        if (teacherPanelOpenButton != null)
+        {
+            teacherPanelOpenButton.onClick.RemoveAllListeners();
+            teacherPanelOpenButton.onClick.AddListener(OnOpenTeacherPanel);
+        }
+
+        if (teacherPanelCloseButton != null)
+        {
+            teacherPanelCloseButton.onClick.RemoveAllListeners();
+            teacherPanelCloseButton.onClick.AddListener(OnCloseTeacherPanel);
+        }
+
+        CheckRole();
+    }
+
+    void CheckRole()
+    {
         object role;
+        bool isTeacher = false;
         if (PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue("Role", out role))
         {
-            if (role.ToString() == "Teacher")
-            {
-                teacherPanel.SetActive(false);
-                teacherPanelOpenButton.SetActive(false);
-                teacherPanelCloseButton.SetActive(false);
-            }
-            else
-            {
-                teacherPanel.SetActive(false);
-                teacherPanelOpenButton.SetActive(false);
-                teacherPanelCloseButton.SetActive(false);
-            }
+            isTeacher = (role.ToString() == "Teacher");
         }
-        else
+
+        if (!isTeacher)
         {
-            teacherPanel.SetActive(false);
-            teacherPanelOpenButton.SetActive(false);
-            teacherPanelCloseButton.SetActive(false);
+            if (teacherPanel != null) teacherPanel.SetActive(false);
+            // Button 타입이므로 .gameObject를 통해 SetActive 사용
+            if (teacherPanelOpenButton != null) teacherPanelOpenButton.gameObject.SetActive(false);
+            if (teacherPanelCloseButton != null) teacherPanelCloseButton.gameObject.SetActive(false);
         }
     }
 
-    // Open 버튼 클릭 시 호출
     public void OnOpenTeacherPanel()
     {
-        teacherPanel.SetActive(true);
-        teacherPanelOpenButton.SetActive(false);
-        teacherPanelCloseButton.SetActive(true);
+        if (teacherPanel != null) teacherPanel.SetActive(true);
+        if (teacherPanelOpenButton != null) teacherPanelOpenButton.gameObject.SetActive(false);
+        if (teacherPanelCloseButton != null) teacherPanelCloseButton.gameObject.SetActive(true);
     }
 
-    // Close 버튼 클릭 시 호출
     public void OnCloseTeacherPanel()
     {
-        teacherPanel.SetActive(false);
-        teacherPanelOpenButton.SetActive(true);
-        teacherPanelCloseButton.SetActive(false);
+        if (teacherPanel != null) teacherPanel.SetActive(false);
+        if (teacherPanelOpenButton != null) teacherPanelOpenButton.gameObject.SetActive(true);
+        if (teacherPanelCloseButton != null) teacherPanelCloseButton.gameObject.SetActive(false);
     }
 
+    // (녹음 및 NPC 셔플 기능은 그대로 유지)
     public void OnRecordStartButtonClicked()
     {
         var recorderObjs = Object.FindObjectsByType<VoiceRecorder>(FindObjectsSortMode.None);
@@ -59,38 +70,26 @@ public class TeacherPanelController : MonoBehaviourPunCallbacks
             foreach (var recorder in recorderObjs)
             {
                 var photonView = recorder.GetComponent<PhotonView>();
-                if (photonView != null)
-                {
-                    photonView.RPC("RpcStartRecording", RpcTarget.All);
-                }
+                if (photonView != null) photonView.RPC("RpcStartRecording", RpcTarget.All);
             }
-            Debug.Log("RecordStartButtonClicked: VoiceRecorder 오브젝트를 찾았습니다.");
-        }
-        else
-        {
-            Debug.LogError("VoiceRecorder 오브젝트를 찾을 수 없습니다.");
         }
     }
 
     public void OnRecordStopButtonClicked()
     {
-        // 모든 플레이어에게 녹음 중지 및 저장 명령 (Teacher 제외)
         var recorderObjs = Object.FindObjectsByType<VoiceRecorder>(FindObjectsSortMode.None);
         if (recorderObjs != null)
         {
             foreach (var recorder in recorderObjs)
             {
                 var photonView = recorder.GetComponent<PhotonView>();
-                if (photonView != null)
-                {
-                    photonView.RPC("RpcStopRecordingAndSave", RpcTarget.All);
-                }
+                if (photonView != null) photonView.RPC("RpcStopRecordingAndSave", RpcTarget.All);
             }
         }
-        else
-        {
-            Debug.LogError("VoiceRecorder 오브젝트를 찾을 수 없습니다.");
-        }
-        Debug.Log("RecordStopButtonClicked: VoiceRecorder 오브젝트를 찾았습니다.");
+    }
+
+    public void OnNpcShuffleButtonClicked()
+    {
+        if (NpcManager.Instance != null) NpcManager.Instance.ShuffleNpcs();
     }
 }

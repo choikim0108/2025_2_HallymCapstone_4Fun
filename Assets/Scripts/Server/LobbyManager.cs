@@ -12,6 +12,9 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
     private string gameVersion = "1"; // 게임 버전
 
+    // ★ FirebaseAuthManager 참조 (Inspector에서 연결할거임)
+    public FirebaseAuthManager authManager;
+
     [Header("UI Panels")]
     public GameObject connectPanel; // 이제 이 패널은 거의 사용되지 않습니다.
     public GameObject lobbyPanel;
@@ -78,13 +81,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         PhotonNetwork.GameVersion = gameVersion;
         PhotonNetwork.ConnectUsingSettings();
     }
-    // 기존의 ConnectToServer 메서드는 이제 사용하지 않으므로 삭제하거나 주석 처리합니다.
-    /*
-    private void ConnectToServer()
-    {
-        // ... 기존 코드 ...
-    }
-    */
     
     // 방 생성
     private void CreateRoom()
@@ -135,7 +131,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         Debug.Log("방 생성 성공!");
     }
 
-    // [추가] 요구조건 2: 방 생성 실패 시 콜백
+    // 방 생성 실패 시 콜백
     public override void OnCreateRoomFailed(short returnCode, string message)
     {
         Debug.Log($"방 생성 실패: {message} (코드: {returnCode})");
@@ -173,7 +169,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         }
     }
 
-    // [추가] 요구조건 2: 방 참가 실패 시 콜백
+    // 방 참가 실패 시 콜백
     public override void OnJoinRoomFailed(short returnCode, string message)
     {
         Debug.Log($"방 참가 실패: {message} (코드: {returnCode})");
@@ -298,7 +294,12 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         if (lobbyPanel != null) lobbyPanel.SetActive(true);
         if (roomPanel != null) roomPanel.SetActive(false);
 
-        if (lobbyStatusText != null) lobbyStatusText.text = ""; // [추가] 로비 패널로 돌아올 때 상태 메시지 초기화
+        if (lobbyStatusText != null) lobbyStatusText.text = ""; // 로비 패널로 돌아올 때 상태 메시지 초기화
+
+        if (authManager != null)  // ★ 로그인/회원가입 statusText도 함께 지우기
+        {
+            authManager.ClearStatusText();
+        }
 
         if (PhotonNetwork.IsConnectedAndReady && !PhotonNetwork.InLobby)
         {

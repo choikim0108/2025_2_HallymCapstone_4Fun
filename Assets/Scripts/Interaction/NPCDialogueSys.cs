@@ -69,7 +69,6 @@ public class NPCDialogueSys : MonoBehaviour
             exitButton.onClick.AddListener(HandleExitButtonClicked);
     }
 
-    // Show dialogue for an NPC by name. playerObj is used to access PlayerInteraction.
     public void ShowDialogue(string npcName, GameObject playerObj, string displayNameOverride = null)
     {
         currentPlayerObj = playerObj;
@@ -119,6 +118,7 @@ public class NPCDialogueSys : MonoBehaviour
         ClearOptions();
         currentData = null;
         currentNode = null;
+        
         if (npcPhotoImage != null)
         {
             npcPhotoImage.sprite = null;

@@ -851,7 +851,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::NPCInteractable
   interactDistance: 3
   interactUIPrefab: {fileID: 4567588601587523750, guid: 022293d17b7ebed46aaf297e137105b3, type: 3}
-  npcName: 
+  npcName: ExplosiveNPC
   npcShownName: Mr. Boom
 --- !u!136 &4613366486271329425
 CapsuleCollider:

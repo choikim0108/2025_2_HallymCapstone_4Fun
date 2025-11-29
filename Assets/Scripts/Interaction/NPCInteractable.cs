@@ -53,8 +53,10 @@ public class NPCInteractable : Interactable
             InteractUIHide();
 
         string nameToUse = string.IsNullOrEmpty(npcName) ? gameObject.name : npcName;
+        
         if (NPCDialogueSys.Instance != null)
         {
+            // [수정] player.gameObject를 넘겨주어 대화 시스템이 플레이어의 컴포넌트(PlayerInteraction)를 찾을 수 있게 함
             NPCDialogueSys.Instance.ShowDialogue(nameToUse, player.gameObject, npcShownName);
         }
         else

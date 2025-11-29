@@ -4,8 +4,9 @@ using Interaction;
 
 public class MissionGiverInteractable : Interactable
 {
-    public Transform boxSpawnPoint; // MainScene/Box_SpawnPoint 오브젝트를 Inspector에서 연결
-    public string boxesResourcePath = "Boxes"; // Resources/Boxes 폴더
+    // 박스를 생성하지 않으므로 스폰 포인트 변수는 더 이상 필요하지 않아 제거하거나 주석 처리합니다.
+    // public Transform boxSpawnPoint; 
+    // public string boxesResourcePath = "Boxes"; 
 
     public override void Interact(PlayerInteraction player)
     {
@@ -13,25 +14,24 @@ public class MissionGiverInteractable : Interactable
         string[] boxNames = { "Box_Normal", "Box_Fragile", "Box_Heavy", "Box_Explosive", "Box_Frozen" };
         string selectedBoxName = boxNames[Random.Range(0, boxNames.Length)];
 
-        // 2) Resources에서 프리팹 로드
-        GameObject boxPrefab = Resources.Load<GameObject>($"{boxesResourcePath}/{selectedBoxName}");
-        if (boxPrefab == null)
-        {
-            Debug.LogError($"[MissionGiverInteractable] 박스 프리팹을 찾을 수 없습니다: {selectedBoxName}");
-            return;
-        }
+        /* [수정됨] 
+           기존의 프리팹 로드 및 PhotonNetwork.Instantiate (박스 생성) 로직을 모두 삭제했습니다.
+           이제 물리적인 박스는 생성되지 않고, 미션 텍스트만 갱신됩니다.
+        */
 
-        // 3) PhotonNetwork를 통해 박스 생성 (네트워크 동기화)
-        if (boxSpawnPoint == null)
+        // 2) 플레이어의 UI에 미션 정보 표시 (로컬 클라이언트만)
+        if (player.photonView.IsMine) 
         {
-            Debug.LogError("[MissionGiverInteractable] boxSpawnPoint가 연결되어 있지 않습니다.");
-            return;
-        }
-        GameObject boxObj = PhotonNetwork.Instantiate($"{boxesResourcePath}/{selectedBoxName}", boxSpawnPoint.position, boxSpawnPoint.rotation);
-        // 이름에서 (Clone) 제거
-        if (boxObj != null)
-        {
-            boxObj.name = selectedBoxName;
+            if (MissionInfoUI.Instance != null)
+            {
+                // UI에 랜덤으로 선택된 박스 이름을 전달하여 미션 갱신
+                MissionInfoUI.Instance.ShowMission(selectedBoxName);
+                Debug.Log($"[MissionGiver] 새로운 미션 부여됨: {selectedBoxName}");
+            }
+            else
+            {
+                Debug.LogWarning("씬에 MissionInfoUI가 없습니다.");
+            }
         }
     }
 }

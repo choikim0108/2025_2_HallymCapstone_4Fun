@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6289478f1bcc184da6fb5aa70d92e3c, type: 3}
   m_Name: ExplosiveNPC
   m_EditorClassIdentifier: Assembly-CSharp::NPCDialogueData
-  npcName: 
+  npcName: ExplosiveNPC
   nodes:
   - nodeId: '"start"'
     text: Hello
@@ -28,7 +28,7 @@ MonoBehaviour:
       action: 0
       actionParam: 
   - nodeId: '"check_EquippedTarget"'
-    text: You're equipped target is ExplosiveBox
+    text: You're equipped target is Explosive Box
     options:
     - optionId: OptionA
       text: Clear Equipped Target
