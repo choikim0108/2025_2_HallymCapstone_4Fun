@@ -1,4 +1,4 @@
-# 🚀 AI Tutor 기반 교육용 멀티플레이 게임: Project 4Fun
+# 🚀 메타버스 기반 상황극형 외국어 학습 플랫폼 개발: Project 4Fun
 
 ![Project Logo or Banner](https://github.com/user-attachments/assets/796f941c-dd3a-4f40-b44f-bd66c117c169)
 
