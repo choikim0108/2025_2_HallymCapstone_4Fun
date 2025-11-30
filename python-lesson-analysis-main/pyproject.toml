@@ -1,0 +1,124 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = ["lesson_analyzer"]
+
+[project]
+name = "lesson-analyzer"
+version = "0.1.0"
+description = "영어 회화 수업 분석 시스템"
+readme = "README.md"
+requires-python = "==3.10.*"
+license = {text = "MIT"}
+authors = [
+    {name = "영어 회화 수업 분석 프로젝트 팀"}
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Education",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Topic :: Education",
+    "Topic :: Multimedia :: Sound/Audio :: Speech",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+dependencies = [
+    # 오디오 처리 및 화자 분리 (통합) - FFmpeg 6 최적화
+    "whisperx",
+    "torch==2.6.*",
+    "torchaudio==2.6.*",  # FFmpeg 6 공식 지원, TORIO_USE_FFMPEG_VERSION=6 자동 설정
+    # 음성 인식
+    # Removed: openai-whisper (replaced by whisperx)
+    "transformers==4.52.3",
+    "soundfile==0.13.1",
+    "jiwer==3.1.0",
+    # 발성 휴지 및 플로우 분석
+    "praat-parselmouth==0.4.5",
+    "librosa==0.11.0",
+    # 자연어 처리 및 문법 분석
+    "spacy==3.7.5",
+    "en-core-web-sm @ https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.7.1/en_core_web_sm-3.7.1-py3-none-any.whl",
+    # 영상/음성 처리
+    "moviepy==2.2.1",
+    "imageio-ffmpeg>=0.4.9",
+    # 데이터 처리 및 보고서 생성
+    "pandas==2.2.3",
+    "numpy==1.26.4",
+    # 보안 및 암호화 (토큰 보호용)
+    "cryptography==45.0.3",
+    "python-levenshtein>=0.27.1",
+    # 환경변수 로딩
+    "python-dotenv==1.0.1",
+]
+
+[project.optional-dependencies]
+dev = [
+    # 개발 도구
+    "ipython==8.18.1",
+    "jupyter==1.1.1",
+    "notebook==7.4.3",
+    
+    # 코드 품질 및 스타일
+    "black==25.1.0",
+    "isort==6.0.1",
+    "flake8==7.2.0",
+    "pylint==3.3.7",
+    "mypy==1.16.0",
+    
+    # 디버깅 및 프로파일링
+    "memory-profiler==0.61.0",
+    "line-profiler==4.2.0",
+    
+    # 문서화
+    "sphinx==7.4.7",
+    "sphinx-rtd-theme==3.0.2",
+    "nbsphinx==0.9.7",
+    
+    # 개발용 유틸리티
+    "pre-commit==4.2.0",
+    "rich==14.0.0",
+]
+test = [
+    # 테스트 프레임워크
+    "pytest==8.3.5",
+    "pytest-cov==6.1.1",
+    "pytest-mock==3.14.1",
+    "pytest-xdist==3.7.0",
+    "hypothesis==6.131.30",
+    
+    # 테스트 유틸리티
+    "coverage==7.8.2",
+    "tox==4.26.0",
+    
+    # 테스트 데이터 생성 및 관리
+    "faker==37.3.0",
+    
+    # 테스트 보고서
+    "pytest-html==4.1.1",
+]
+
+[tool.black]
+line-length = 100
+target-version = ["py310"]
+include = '\.pyi?$'
+
+[tool.isort]
+profile = "black"
+line_length = 100
+
+[tool.mypy]
+python_version = "3.10"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+
+[tool.pytest.ini_options]
+minversion = "7.0"
+testpaths = ["tests"]
+python_files = "test_*.py"
+python_classes = "Test*"
+python_functions = "test_*"

@@ -1,0 +1,156 @@
+{
+  "en": {
+    "hello": {
+      "word": "hello",
+      "syllable_count": 2,
+      "stress_pattern": [
+        0,
+        1
+      ],
+      "f0_pattern": [
+        0.8,
+        1.2
+      ]
+    },
+    "computer": {
+      "word": "computer",
+      "syllable_count": 3,
+      "stress_pattern": [
+        0,
+        1,
+        0
+      ],
+      "f0_pattern": [
+        0.8,
+        1.3,
+        0.9
+      ]
+    },
+    "important": {
+      "word": "important",
+      "syllable_count": 3,
+      "stress_pattern": [
+        0,
+        1,
+        0
+      ],
+      "f0_pattern": [
+        0.8,
+        1.4,
+        0.7
+      ]
+    },
+    "beautiful": {
+      "word": "beautiful",
+      "syllable_count": 3,
+      "stress_pattern": [
+        1,
+        0,
+        0
+      ],
+      "f0_pattern": [
+        1.3,
+        0.8,
+        0.7
+      ]
+    },
+    "understand": {
+      "word": "understand",
+      "syllable_count": 3,
+      "stress_pattern": [
+        0,
+        0,
+        1
+      ],
+      "f0_pattern": [
+        0.7,
+        0.8,
+        1.4
+      ]
+    },
+    "pronunciation": {
+      "word": "pronunciation",
+      "syllable_count": 5,
+      "stress_pattern": [
+        0,
+        0,
+        2,
+        1,
+        0
+      ],
+      "f0_pattern": [
+        0.7,
+        0.8,
+        1.1,
+        1.4,
+        0.6
+      ]
+    },
+    "education": {
+      "word": "education",
+      "syllable_count": 4,
+      "stress_pattern": [
+        0,
+        0,
+        1,
+        0
+      ],
+      "f0_pattern": [
+        0.8,
+        0.7,
+        1.3,
+        0.9
+      ]
+    },
+    "development": {
+      "word": "development",
+      "syllable_count": 4,
+      "stress_pattern": [
+        0,
+        1,
+        0,
+        0
+      ],
+      "f0_pattern": [
+        0.7,
+        1.3,
+        0.9,
+        0.8
+      ]
+    },
+    "international": {
+      "word": "international",
+      "syllable_count": 5,
+      "stress_pattern": [
+        0,
+        0,
+        1,
+        0,
+        0
+      ],
+      "f0_pattern": [
+        0.7,
+        0.8,
+        1.4,
+        0.9,
+        0.6
+      ]
+    },
+    "technology": {
+      "word": "technology",
+      "syllable_count": 4,
+      "stress_pattern": [
+        0,
+        1,
+        0,
+        0
+      ],
+      "f0_pattern": [
+        0.8,
+        1.3,
+        0.9,
+        0.7
+      ]
+    }
+  }
+}
