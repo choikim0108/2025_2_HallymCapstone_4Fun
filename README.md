@@ -9,6 +9,8 @@
 
 본 프로젝트는 Unity 엔진을 기반으로 하는 **메타버스 기반 상황극형 외국어 학습 플랫폼**입니다. 교사 1인과 학생 3인이 실시간으로 상호작용하며 학습 콘텐츠를 체험하는 몰입형 교육 환경을 제공하는 것을 목표로 합니다.
 
+![Award](https://img.shields.io/badge/2025_SW_Capstone_Design-Bronze_Prize-cd7f32?style=for-the-badge&logo=trophy&logoColor=white)
+### 🥉 2025년 2학기 SW캡스톤디자인 경진대회 동상 수상작
 ---
 
 ## 1. 프로젝트 개요
